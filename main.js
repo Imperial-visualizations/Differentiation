@@ -177,12 +177,10 @@ var MODULE = (function () {
             c1*fn1s[oldfn](z0) + (i/512 - z0)/2 * (
             c2*fn2s[oldfn](z0) + (i/512 - z0)/3 *
             c3*fn3s[oldfn](z0) )))
-        
+
         fxStr += ((i && inRange)?" L ":" M ") + (x0 + xScale*i/512) + "," + (y0 + yScale * f)
         gxStr += (i?" L ":" M ") + (x0 + xScale*i/512) + "," + (y0 + yScale * g)
       }
-
-      gradient = 
 
       el["fx"].setAttribute("d", fxStr);
       el["gx"].setAttribute("d", "M " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))) + " L "  + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))));
