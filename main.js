@@ -162,7 +162,7 @@ var MODULE = (function () {
   
     that.redraw = function () {
       var x0 = 55.123835, y0 = 497.57214; // Page Coordinates
-      var xOffset = 50
+      var xOffset = 30 // This is the x distance between the two blobs on the function
       var fxStr = "", gxStr = "";
       var f, g, inRange;
       for (var i = 0; i < 512; i += 1) {
@@ -183,13 +183,21 @@ var MODULE = (function () {
       }
 
       el["fx"].setAttribute("d", fxStr);
-      el["gx"].setAttribute("d", "M " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))) + " L "  + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))));
+      el["gxRed"].setAttribute("d", "M " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))) + " L "  + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))));
       el["blob"].setAttribute("d", "M " + (x0+xScale*z0) + "," + y0 + " L " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)) ));
       el["blob2"].setAttribute("d", "M " + (x0+xScale*z0 + xOffset) + "," + y0 + " L " + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale)) ));
+      el["gxBlack"].setAttribute("d", gxStr)
+
+      //el["gxBlack"].setAttribute("visibility", "hidden") // This will turn off the black line which is the actual differential approx
+
+      let angle =Math.atan2((y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))) - (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))), (x0+xScale*z0 + xOffset) - (x0+xScale*z0)) * 180 / Math.PI;
+      const xDiff = (parseFloat(el["lineExt"].getAttribute('x1')) + parseFloat(el["lineExt"].getAttribute("x2"))) / 2;
+
+      el["lineExt"].setAttribute("transform", `translate(${((x0+xScale*z0)+(x0+xScale*z0 + xOffset))/2 - xDiff}, ${((y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)))+(y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))))/2 - y0}) rotate(${angle}, ${xDiff}, ${y0})`);      
     };
   
     that.init = function () {
-      ["root", "layer1", "initText", "graph", "function", "order", "xAxis", "yAxis", "fx", "gx", "blob", "blob2"].map(
+      ["root", "layer1", "initText", "graph", "function", "order", "xAxis", "yAxis", "fx", "gxRed", "blob", "blob2", "lineExt", "gxBlack"].map(
         function (id) {
           el[id] = document.getElementById(id);
         });
