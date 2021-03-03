@@ -5,7 +5,7 @@ var MODULE = (function () {
     var that = {},
       t = 0, T = 1, f = 60,
       ivl, iFn, lastFrame;
-    var order=1, fn="sin", oldfn="sin", p=1;
+    var fn="sin", oldfn="sin", p=1;
     var c1=1, c2=0, c3=0; // current c0 etc.
     var o1=1, o2=0, o3=0; // old c0 etc.
     var t1=1, t2=0, t3=0; // target c0 etc.
@@ -112,30 +112,7 @@ var MODULE = (function () {
       t=0;
       ivl = setInterval(iFn, 1000/f);
     };
-  
-    ordOnChange = function () {
-      o1 = c1;
-      o2 = c2;
-      o3 = c3;
-      switch (+el["order"].value) {
-        case 0:
-          t1 = 0; t2 = 0; t3 = 0;
-          break;
-        case 1:
-          t1 = 1; t2 = 0; t3 = 0;
-          break;
-        case 2:
-          t1 = 1; t2 = 1; t3 = 0;
-          break;
-        case 3:
-          t1 = 1; t2 = 1; t3 = 1;
-          break;
-      }
-      clearInterval(ivl);
-      lastFrame = +new Date;
-      t=0;
-      ivl = setInterval(iFn, 1000/f);
-    };
+
   
     iFn = function () {
       var now, x;
@@ -162,9 +139,10 @@ var MODULE = (function () {
   
     that.redraw = function () {
       var x0 = 55.123835, y0 = 497.57214; // Page Coordinates
-      var xOffset = 30 // This is the x distance between the two blobs on the function
+      var xOffset = el["deltaX"].valueAsNumber;
       var fxStr = "", gxStr = "";
       var f, g, inRange;
+
       for (var i = 0; i < 512; i += 1) {
         f = p*fns[fn](i/512) + (1-p)*fns[oldfn](i/512) || 0
         inRange = Math.abs(f) < 4;
@@ -182,13 +160,21 @@ var MODULE = (function () {
         gxStr += (i?" L ":" M ") + (x0 + xScale*i/512) + "," + (y0 + yScale * g)
       }
 
+
       el["fx"].setAttribute("d", fxStr);
       // el["gxRed"].setAttribute("d", "M " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))) + " L "  + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))));
       el["blob"].setAttribute("d", "M " + (x0+xScale*z0) + "," + y0 + " L " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)) ));
       el["blob2"].setAttribute("d", "M " + (x0+xScale*z0 + xOffset) + "," + y0 + " L " + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale)) ));
       el["gxBlack"].setAttribute("d", gxStr)
 
-      //el["gxBlack"].setAttribute("visibility", "hidden") // This will turn off the black line which is the actual differential approx
+      el["gxBlack"].setAttribute("visibility", "hidden") // This will turn off the black line which is the actual differential approx
+
+      // Change line style when not at exact derivative 
+      if(xOffset === 0.0001){
+        el["lineExt"].setAttribute("stroke-dasharray", "0") 
+      } else{
+        el["lineExt"].setAttribute("stroke-dasharray", "8 3") 
+      }
 
       let angle =Math.atan2((y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))) - (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))), (x0+xScale*z0 + xOffset) - (x0+xScale*z0)) * 180 / Math.PI;
       const xDiff = (parseFloat(el["lineExt"].getAttribute('x1')) + parseFloat(el["lineExt"].getAttribute("x2"))) / 2;
@@ -197,13 +183,13 @@ var MODULE = (function () {
     };
   
     that.init = function () {
-      ["root", "layer1", "initText", "graph", "function", "order", "xAxis", "yAxis", "fx", "gxRed", "blob", "blob2", "lineExt", "gxBlack"].map(
+      ["root", "layer1", "initText", "graph", "function", "xAxis", "yAxis", "fx", "gxRed", "blob", "blob2", "lineExt", "gxBlack", "deltaX"].map(
         function (id) {
           el[id] = document.getElementById(id);
         });
   
       el["function"].onchange = fnOnChange;
-      el["order"].onchange = ordOnChange;
+      el["deltaX"].oninput = this.redraw;
   
       xScale = el["xAxis"].getBBox().width;
       yScale = -el["yAxis"].getBBox().height / 2 / 3;
@@ -220,7 +206,7 @@ var MODULE = (function () {
         }
         el["graph"].style.cursor = "grabbing";
         dX = [e.clientX - X0[0], e.clientY - X0[1]]
-        z0 = Math.min(Math.max(z00 + dX[0]/xScale, 0), 1);
+        z0 = Math.min(Math.max(z00 + dX[0]/xScale, 0), 1 - el["deltaX"].valueAsNumber/xScale);
         that.redraw();
         return e.preventDefault();
       };
@@ -237,7 +223,6 @@ var MODULE = (function () {
   
       el["root"].ondragstart = function (e) { return e.preventDefault(); };
   
-      el["order"].value = order;
       el["function"].value = fn;
       that.redraw()
   
