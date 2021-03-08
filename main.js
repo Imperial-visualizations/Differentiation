@@ -12,7 +12,7 @@ var MODULE = (function () {
     var X0 = [0,0], dX = [0,0], z00=0.45, z0 = 0.45;;
     var el = that.el = {};
     var fnOnChange, ordOnChange;
-    var xScale, yScale;
+    var xScale, yScale, xScale2, yScale2;
   
     var fns = {
       "sin" : function (z) {
@@ -183,7 +183,7 @@ var MODULE = (function () {
     };
   
     that.init = function () {
-      ["root", "layer1", "initText", "graph", "function", "xAxis", "yAxis", "fx", "gxRed", "blob", "blob2", "lineExt", "gxBlack", "deltaX"].map(
+      ["root", "layer1", "initText", "graph", "graph2", "function", "xAxis", "yAxis", "xAxis2", "yAxis2", "fx", "gxRed", "blob", "blob2", "lineExt", "gxBlack", "deltaX"].map(
         function (id) {
           el[id] = document.getElementById(id);
         });
@@ -193,8 +193,13 @@ var MODULE = (function () {
   
       xScale = el["xAxis"].getBBox().width;
       yScale = -el["yAxis"].getBBox().height / 2 / 3;
+
+      
+      xScale2 = el["xAxis2"].getBBox().width;
+      yScale2 = -el["yAxis2"].getBBox().height / 2 / 3;
   
       el["graph"].style.cursor = "pointer";
+      el["graph2"].style.cursor = "pointer";
       X0 = [el["blob"].getBBox().x + 207, el["blob"].getBBox().y];
       X0 = [el["blob2"].getBBox().x + 207, el["blob2"].getBBox().y];
   

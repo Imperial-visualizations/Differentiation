@@ -8,7 +8,7 @@ http://fourier.space/
 <meta charset="utf-8" />
 <script src="https://www.coursera.org/widget/coursera-widget-connect-v0.js"></script>
 </head>
-<body style="margin:0px; padding:0px; overflow: hidden; width: 100%; height: 100%;" onload="MODULE.init();"  onclick="MODULE.init();">
+<body style="margin:0px; padding:0px; overflow: scroll; width: 100%; height: 100%;" onload="MODULE.init();"  onclick="MODULE.init();">
 <svg
    xmlns:ns0="http://www.iki.fi/pav/software/textext/"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -19,9 +19,10 @@ http://fourier.space/
    xmlns:xlink="http://www.w3.org/1999/xlink"
    version="1.1"
    id="root"
-   height="500" 
+   height="1000" 
    width="570">
-   <!-- h=500, w-570 -->
+   <!-- h=700, w-570 -->
+   <!-- change height of above to vary blue bit, so 2 graphs can be included (line 22 and 139)-->
   <defs
      id="defs4">
     <marker
@@ -30,11 +31,11 @@ http://fourier.space/
        refX="0.0"
        refY="0.0"
        orient="auto">
-      <path
+      <path 
          transform="scale(0.4) translate(7.4, 1)"
          style="fill-rule:evenodd;stroke:white;stroke-width:1pt;stroke-opacity:1;fill:#5DFF33;fill-opacity:1"
          d="M -2.5,-1.0 C -2.5,1.7600000 -4.7400000,4.0 -7.5,4.0 C -10.260000,4.0 -12.5,1.7600000 -12.5,-1.0 C -12.5,-3.7600000 -10.260000,-6.0 -7.5,-6.0 C -4.7400000,-6.0 -2.5,-3.7600000 -2.5,-1.0 z "
-         id="path9112" />
+         id="path9112" /> <!-- draws circles-->
     </marker>
     <marker
        style="overflow:visible"
@@ -46,7 +47,7 @@ http://fourier.space/
          transform="scale(0.4)"
          style="fill-rule:evenodd;stroke:#f0f5fa;stroke-width:1pt;stroke-opacity:1;fill:#f0f5fa;fill-opacity:1"
          d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
-         id="path7898" />
+         id="path7898" /> <!-- draws axes... or is it line between -->
     </marker>
     <marker
        style="overflow:visible"
@@ -135,7 +136,7 @@ http://fourier.space/
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581-1);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers;enable-background:accumulate"
        id="rect4573-0"
        width="570"
-       height="500"
+       height="1000"
        x="23.123835"
        y="221.57211" />
     <rect
@@ -154,7 +155,7 @@ http://fourier.space/
          width="528"
          height="400"
          x="47.123837"
-         y="297.57214" />
+         y="297.57214+450" />
       <g
          id="g9544">
         <path
@@ -186,14 +187,35 @@ http://fourier.space/
       <path
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
          d="m 55.123835,497.57214 v 0"
-         id="blob" />
+         id="blob" /> <!-- line between two blobs-->
        <path
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
          d="m 55.123835,497.57214 v 0"
-         id="blob2" />
+         id="blob2" /> <!-- line between two of the blobs-->
       <!-- <circle cx="55.123835" cy="497.57214" r="10"/> The Origin of the axises-->
       
     </g>
+    <g
+        
+       id="graph2">
+      <rect
+         style="fill: transparent;"
+         width="528"
+         height="400"
+         x="47.123837"
+         y="747.57214" />
+      <g id="g9545">
+        <path
+           id="yAxis2"
+           d="m 55.123835,1139.57214 v -384"
+           style="opacity:1;vector-effect:none;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#f0f5fa;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-end:url(#marker7900);paint-order:stroke fill markers" />
+        <path
+           id="xAxis2"
+           d="M 55.123835,947.57214 H 567.12383"
+           style="opacity:1;vector-effect:none;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#f0f5fa;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-end:url(#TriangleOutM);paint-order:stroke fill markers" />
+      </g>
+    </g>
+    
     <g
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        ns0:preamble="/home/afp11/.config/inkscape/extensions/default_packages.tex"
