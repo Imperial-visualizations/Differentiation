@@ -13,8 +13,9 @@ var MODULE = (function () {
     var t1=1, t2=0, t3=0; // target c0 etc.
     var X0 = [0,0], dX = [0,0], z00=0.45, z0 = 0.45;;
     var el = that.el = {};
-    var fnOnChange;
-    var xScale, yScale;
+
+    var fnOnChange, ordOnChange;
+    var xScale, yScale, xScale2, yScale2;
   
     /* Defines functions mathematically.
       These functions have been scaled - presumably for aesthetic reasons
@@ -214,8 +215,9 @@ var MODULE = (function () {
   
     // This function runs when the page loads (see <body> tag in index.html)
     that.init = function () {
+
       // Create an array of the elements using their ids and getElementById
-      ["root", "layer1", "initText", "graph", "function", "xAxis", "yAxis", "fx", "gxRed", "blob", "blob2", "lineExt", "gxBlack", "deltaX"].map(
+      ["root", "layer1", "initText", "graph", "graph2", "function", "xAxis", "yAxis", "xAxis2", "yAxis2", "fx", "gxRed", "blob", "blob2", "lineExt", "gxBlack", "deltaX"].map(
         function (id) {
           el[id] = document.getElementById(id);
         });
@@ -228,10 +230,15 @@ var MODULE = (function () {
       // Find the size of the bounding box in pixels
       xScale = el["xAxis"].getBBox().width;
       yScale = -el["yAxis"].getBBox().height / 2 / 3;
+
+      
+      xScale2 = el["xAxis2"].getBBox().width;
+      yScale2 = -el["yAxis2"].getBBox().height / 2 / 3;
   
       // Set the cursor to pointer mode when hovering over the graph
       el["graph"].style.cursor = "pointer";
-      // Setting X0 twice? Might be a problem here?
+      el["graph2"].style.cursor = "pointer";
+
       X0 = [el["blob"].getBBox().x + 207, el["blob"].getBBox().y];
       //X0 = [el["blob2"].getBBox().x + 207, el["blob2"].getBBox().y];
   
