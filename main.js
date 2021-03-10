@@ -269,7 +269,6 @@ var MODULE = (function () {
   
       // Set the cursor to pointer mode when hovering over the graph
       el["graph"].style.cursor = "pointer";
-      el["graph2"].style.cursor = "pointer";
       
 
       // Setting X0 twice? Might be a problem here?
