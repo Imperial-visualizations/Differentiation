@@ -11,10 +11,10 @@ var MODULE = (function () {
     var c1=1, c2=0, c3=0; // current c0 etc.
     var o1=1, o2=0, o3=0; // old c0 etc.
     var t1=1, t2=0, t3=0; // target c0 etc.
-    var X0 = [0,0], dX = [0,0], z00=0.45, z0 = 0.45;;
+    var X0 = [0,0], X0_1=[0,0], dX = [0,0], z00=0.45, z0 = 0.45;;
     var el = that.el = {};
     var fnOnChange;
-    var xScale, yScale;
+    var xScale, yScale, xScale_1, yScale_1;
   
     /* Defines functions mathematically.
       These functions have been scaled - presumably for aesthetic reasons
@@ -48,22 +48,22 @@ var MODULE = (function () {
       */
     var fn1s = { // First Derivative
       "sin" : function (z) {
-        return 3 * 2 * Math.PI * Math.cos(3 * 2 * Math.PI * z)
+        return (3 * 2 * Math.PI * Math.cos(3 * 2 * Math.PI * z)); //19
       },
       "exp" : function (z) {
-        return -3*5*Math.exp(-5*z);
+        return (-3*5*Math.exp(-5*z)); //5
       },
       "tan" : function (z) {
-        return 6*Math.PI/Math.pow(Math.cos(3 * 2 * Math.PI * z), 2);
+        return (6*Math.PI/Math.pow(Math.cos(3 * 2 * Math.PI * z), 2)); //15
       },
       "gauss" : function (z) {
-        return Math.exp(-Math.pow((z-0.5)/0.1,2)/2)*(0.5-z)/0.1/0.1;
+        return (Math.exp(-Math.pow((z-0.5)/0.1,2)/2)*(0.5-z)/0.1/0.1); //7
       },
       "parab" : function (z) {
-        return 2*20*(z-0.5);
+        return (2*20*(z-0.5)); //5
       },
       "poly" : function (x) {
-        return 8*((8*(x-0.5))**5 - 12*(8*(x-0.5))**3 - 2*(8*(x-0.5))**2 + 27*(8*(x-0.5)) + 18) / 100*3;
+        return (8*((8*(x-0.5))**5 - 12*(8*(x-0.5))**3 - 2*(8*(x-0.5))**2 + 27*(8*(x-0.5)) + 18) / 100*3); //10
       }
     }
     fn1s["parabStep"] = fn1s["parab"]
@@ -166,7 +166,29 @@ var MODULE = (function () {
       var x0 = 55.123835, y0 = 497.57214; // Page Coordinates
       var xOffset = el["deltaX"].valueAsNumber;
       var fxStr = "", gxStr = "";
+      let f1xStr = "";
       var f, g, inRange;
+      let f1, inRange1, adj;
+
+      switch(fn) {
+        case "sin":
+          adj = 19;
+          break;
+        case "exp":
+          adj = 5;
+          break;
+        case "tan":
+          adj = 15;
+          break;
+        case "gauss":
+          adj = 7;
+          break;
+        case "parab":
+          adj = 5;
+          break;
+        case "poly":
+          adj = 10;
+      }
 
       /* This draws each of the functions, including when animation is running, by
         calculating the function at 512 points and drawing straight lines between
@@ -175,8 +197,13 @@ var MODULE = (function () {
       for (var i = 0; i < 512; i += 1) {
         //
         f = p*fns[fn](i/512) + (1-p)*fns[oldfn](i/512) || 0
+        f1 = p*fn1s[fn](i/512)/adj + (1-p)*fn1s[oldfn](i/512)/adj || 0
+
         inRange = Math.abs(f) < 4;
+        inRange1 = Math.abs(f1) < 4;
+
         f = Math.min(Math.max(f, -4), 4)
+        f1 = Math.min(Math.max(f1, -4), 4)
         // g is the Taylor series approximation
         g = p *(fns[fn](z0)  + (i/512 - z0)   * (
             c1*fn1s[fn](z0) + (i/512 - z0)/2 * (
@@ -188,10 +215,13 @@ var MODULE = (function () {
             c3*fn3s[oldfn](z0) )))
 
         fxStr += ((i && inRange)?" L ":" M ") + (x0 + xScale*i/512) + "," + (y0 + yScale * f)
+        f1xStr += ((i && inRange1)?" L ":" M ") + (x0 + xScale_1*i/512) + "," + (y0 + yScale_1 * f1)
+
         gxStr += (i?" L ":" M ") + (x0 + xScale*i/512) + "," + (y0 + yScale * g)
       }
 
       el["fx"].setAttribute("d", fxStr);
+      el["fx-1"].setAttribute("d", f1xStr);
       // el["gxRed"].setAttribute("d", "M " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))) + " L "  + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))));
       el["blob"].setAttribute("d", "M " + (x0+xScale*z0) + "," + y0 + " L " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)) ));
       el["blob2"].setAttribute("d", "M " + (x0+xScale*z0 + xOffset) + "," + y0 + " L " + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale)) ));
@@ -200,7 +230,7 @@ var MODULE = (function () {
       el["gxBlack"].setAttribute("visibility", "hidden") // This will turn off the black line which is the actual differential approx
 
       // Change line style when not at exact derivative 
-      if(xOffset === 0.0001){
+      if(xOffset === parseFloat(el["deltaX"].getAttribute("min"))){
         el["lineExt"].setAttribute("stroke-dasharray", "0") 
       } else{
         el["lineExt"].setAttribute("stroke-dasharray", "8 3") 
@@ -215,7 +245,7 @@ var MODULE = (function () {
     // This function runs when the page loads (see <body> tag in index.html)
     that.init = function () {
       // Create an array of the elements using their ids and getElementById
-      ["root", "layer1", "initText", "graph", "function", "xAxis", "yAxis", "fx", "gxRed", "blob", "blob2", "lineExt", "gxBlack", "deltaX"].map(
+      ["root", "layer1", "layer2", "initText", "graph", "graph1", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "gxRed", "blob", "blob2", "blob-1", "blob2-1", "lineExt", "gxBlack", "gxBlack-1", "deltaX"].map(
         function (id) {
           el[id] = document.getElementById(id);
         });
@@ -228,11 +258,17 @@ var MODULE = (function () {
       // Find the size of the bounding box in pixels
       xScale = el["xAxis"].getBBox().width;
       yScale = -el["yAxis"].getBBox().height / 2 / 3;
+
+      xScale_1 = el["xAxis-1"].getBBox().width;
+      yScale_1 = -el["yAxis-1"].getBBox().height / 2 / 3;
   
       // Set the cursor to pointer mode when hovering over the graph
       el["graph"].style.cursor = "pointer";
+
       // Setting X0 twice? Might be a problem here?
       X0 = [el["blob"].getBBox().x + 207, el["blob"].getBBox().y];
+
+      //X0_1 = [el["blob-1"].getBBox().x + 207, el["blob-1"].getBBox().y];
       //X0 = [el["blob2"].getBBox().x + 207, el["blob2"].getBBox().y];
   
       // Create mousePressed variable, set to false by default
@@ -277,7 +313,8 @@ var MODULE = (function () {
   
       document.body.onclick = null;
       el["layer1"].style.filter = null;
-      el["initText"].style.display = "none";
+      el["layer2"].style.filter = null;
+      //el["initText"].style.display = "none";
 
     };
   
