@@ -13,8 +13,10 @@ var MODULE = (function () {
     var t1=1, t2=0, t3=0; // target c0 etc.
     var X0 = [0,0], X0_1=[0,0], dX = [0,0], z00=0.45, z0 = 0.45;;
     var el = that.el = {};
+  
     var fnOnChange;
     var xScale, yScale, xScale_1, yScale_1;
+
   
     /* Defines functions mathematically.
       These functions have been scaled - presumably for aesthetic reasons
@@ -244,8 +246,10 @@ var MODULE = (function () {
   
     // This function runs when the page loads (see <body> tag in index.html)
     that.init = function () {
+
       // Create an array of the elements using their ids and getElementById
       ["root", "layer1", "layer2", "initText", "graph", "graph1", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "gxRed", "blob", "blob2", "blob-1", "blob2-1", "lineExt", "gxBlack", "gxBlack-1", "deltaX"].map(
+
         function (id) {
           el[id] = document.getElementById(id);
         });
@@ -259,13 +263,17 @@ var MODULE = (function () {
       xScale = el["xAxis"].getBBox().width;
       yScale = -el["yAxis"].getBBox().height / 2 / 3;
 
+
       xScale_1 = el["xAxis-1"].getBBox().width;
       yScale_1 = -el["yAxis-1"].getBBox().height / 2 / 3;
   
       // Set the cursor to pointer mode when hovering over the graph
       el["graph"].style.cursor = "pointer";
+      el["graph2"].style.cursor = "pointer";
+      
 
       // Setting X0 twice? Might be a problem here?
+
       X0 = [el["blob"].getBBox().x + 207, el["blob"].getBBox().y];
 
       //X0_1 = [el["blob-1"].getBBox().x + 207, el["blob-1"].getBBox().y];
