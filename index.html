@@ -9,6 +9,23 @@ http://fourier.space/
 <script src="https://www.coursera.org/widget/coursera-widget-connect-v0.js"></script>
 </head>
 <body style="margin:0px; padding:0px; overflow: scroll; width: 100%; height: 100%;" onload="MODULE.init();"  onclick="MODULE.init();">
+   <style>
+      :root{
+         --animDuration: 1s;
+         --axis-width: 512px;
+      }
+      .full {
+         width: var(--axis-width);
+      }
+      .r {
+            animation: move var(--animDuration) linear;
+        }
+        @keyframes move {
+            to {
+                width: var(--axis-width);
+            }
+        }
+      </style>
 <svg
    xmlns:ns0="http://www.iki.fi/pav/software/textext/"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -19,8 +36,7 @@ http://fourier.space/
    xmlns:xlink="http://www.w3.org/1999/xlink"
    version="1.1"
    id="root"
-   height="1000" 
-
+   height="875" 
    width="570">
    <!-- h=700, w-570 -->
    <!-- change height of above to vary blue bit, so 2 graphs can be included (line 22 and 139)-->
@@ -36,7 +52,6 @@ http://fourier.space/
          transform="scale(0.4) translate(7.4, 1)"
          style="fill-rule:evenodd;stroke:white;stroke-width:1pt;stroke-opacity:1;fill:#5DFF33;fill-opacity:1"
          d="M -2.5,-1.0 C -2.5,1.7600000 -4.7400000,4.0 -7.5,4.0 C -10.260000,4.0 -12.5,1.7600000 -12.5,-1.0 C -12.5,-3.7600000 -10.260000,-6.0 -7.5,-6.0 C -4.7400000,-6.0 -2.5,-3.7600000 -2.5,-1.0 z "
-
          id="path9112" /> <!-- draws circles-->
     </marker>
     <marker
@@ -49,9 +64,7 @@ http://fourier.space/
          transform="scale(0.4)"
          style="fill-rule:evenodd;stroke:#f0f5fa;stroke-width:1pt;stroke-opacity:1;fill:#f0f5fa;fill-opacity:1"
          d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
-
          id="path7898" /> <!-- draws axes... or is it line between -->
-
     </marker>
     <marker
        style="overflow:visible"
@@ -134,6 +147,10 @@ http://fourier.space/
          x="47.123837"
          y="297.57214" />
     </clipPath>
+    <clipPath
+      id="reveal">
+      <rect id="rect" width="0" height="10000" x="55.123835"/>
+   </clipPath>
   </defs>
   <g
      transform="translate(-23.123835,-221.57211)"
@@ -143,7 +160,7 @@ http://fourier.space/
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581-1);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers;enable-background:accumulate"
        id="rect4573-0"
        width="570"
-       height="1000"
+       height="480"
        x="23.123835"
        y="221.57211" />
     <rect
@@ -178,14 +195,9 @@ http://fourier.space/
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#afdb85;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers"
          d="M 55.123835,497.57214 H 567.12383"
          id="fx" />
+
       <line
          x1="-1000" y1="497.57214" x2="1300" y2="497.57214" transform="translate(0,0) rotate(0)" id="lineExt" style="stroke:#ff0505" stroke-width="2"/>
-         <!-- This is the line that is the extension of the line between the two points -->
-         <!-- <path
-            style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers"
-            d="M 55.123835,497.57214 H 567.12383"
-            id="gxRed" /> -->
-         <!-- This is the line in between the two points -->
       <path
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
          d="m 55.123835,497.57214 v 0"
@@ -194,32 +206,8 @@ http://fourier.space/
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
          d="m 55.123835,497.57214 v 0"
          id="blob2" /> <!-- line between two of the blobs-->
-      <!-- <circle cx="55.123835" cy="497.57214" r="10"/> The Origin of the axises-->
-      
+      <!-- <circle cx="55.123835" cy="497.57214" r="10"/> The Origin of the axises -->
     </g>
-
-
-    <g
-        
-       id="graph2">
-      <rect
-         style="fill: transparent;"
-         width="528"
-         height="400"
-         x="47.123837"
-         y="747.57214" />
-      <g id="g9545">
-        <path
-           id="yAxis2"
-           d="m 55.123835,1139.57214 v -384"
-           style="opacity:1;vector-effect:none;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#f0f5fa;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-end:url(#marker7900);paint-order:stroke fill markers" />
-        <path
-           id="xAxis2"
-           d="M 55.123835,947.57214 H 567.12383"
-           style="opacity:1;vector-effect:none;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#f0f5fa;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-end:url(#TriangleOutM);paint-order:stroke fill markers" />
-      </g>
-    </g>
-    
     <g
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        ns0:preamble="/home/afp11/.config/inkscape/extensions/default_packages.tex"
@@ -240,7 +228,6 @@ http://fourier.space/
          id="path10149"
          d="m 306.11,698.17 v 0.03 l 0.01,0.03 0.01,0.03 0.01,0.03 0.01,0.04 0.01,0.04 0.01,0.05 0.02,0.04 0.01,0.05 0.02,0.05 0.02,0.04 0.02,0.05 0.02,0.05 0.03,0.05 0.02,0.05 0.03,0.05 0.03,0.05 0.03,0.05 0.04,0.04 0.03,0.05 0.04,0.04 0.04,0.04 0.04,0.04 0.04,0.04 0.05,0.03 0.05,0.03 0.03,0.01 0.02,0.01 0.03,0.01 0.02,0.01 0.03,0.01 0.03,0.01 0.03,0.01 h 0.03 l 0.03,0.01 h 0.03 0.03 0.04 c 0.04,0 0.28,0 0.49,-0.13 -0.28,-0.05 -0.48,-0.3 -0.48,-0.53 0,-0.16 0.12,-0.35 0.38,-0.35 0.22,0 0.54,0.18 0.54,0.58 0,0.51 -0.59,0.65 -0.92,0.65 -0.58,0 -0.93,-0.53 -1.05,-0.75 -0.25,0.65 -0.79,0.75 -1.08,0.75 -1.04,0 -1.6,-1.28 -1.6,-1.53 0,-0.1 0.1,-0.1 0.11,-0.1 0.09,0 0.12,0.02 0.13,0.11 0.34,1.05 1,1.3 1.34,1.3 0.19,0 0.54,-0.09 0.54,-0.66 0,-0.31 -0.17,-0.98 -0.54,-2.37 -0.16,-0.61 -0.51,-1.03 -0.95,-1.03 -0.06,0 -0.29,0 -0.49,0.13 0.24,0.05 0.46,0.26 0.46,0.54 0,0.26 -0.22,0.34 -0.37,0.34 -0.29,0 -0.54,-0.26 -0.54,-0.57 0,-0.46 0.5,-0.66 0.93,-0.66 0.66,0 1.02,0.7 1.05,0.76 0.12,-0.37 0.48,-0.76 1.08,-0.76 1.02,0 1.59,1.28 1.59,1.53 0,0.1 -0.09,0.1 -0.12,0.1 -0.09,0 -0.11,-0.04 -0.13,-0.11 -0.33,-1.06 -1,-1.3 -1.32,-1.3 -0.39,0 -0.55,0.32 -0.55,0.65 0,0.22 0.06,0.44 0.17,0.88 z" />
       </g> <!-- The 'x' on the x-axis -->
-      
       <g
        id="g10296"
        transform="matrix(2.4000001,0,0,-2.4,-641.45589,1972.3464)"
@@ -322,7 +309,6 @@ http://fourier.space/
          id="tspan18340">Function</tspan>
       </text>
       <!-- 'Function' next to the function select box-->
-   
     <foreignObject
        y="235.90814"
        x="135.80826"
@@ -343,8 +329,10 @@ http://fourier.space/
          <input type="range" min="0.0001" max="50" value="25" class="slider" id="deltaX" name="deltax" step="0.0001">
          <label for="deltax">Delta x</label>
        </div>
+       <input type="number" id="duration" min="1" max="10" value="5">
     </foreignObject>
     <!-- The function select box -->
+    
   </g>
   <g
      transform="translate(-23.123835,250)"
@@ -354,9 +342,9 @@ http://fourier.space/
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581-1);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers;enable-background:accumulate"
        id="rect4573-0-1"
        width="570"
-       height="500"
+       height="400"
        x="23.123835"
-       y="221.57211" />
+       y="222" />
     <rect
        transform="translate(23.123835,221.57211)"
        y="0"
@@ -387,12 +375,12 @@ http://fourier.space/
            style="opacity:1;vector-effect:none;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#f0f5fa;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-end:url(#TriangleOutM);paint-order:stroke fill markers" />
       </g>
       <path
-         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#afdb85;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers"
+         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#afdb85;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;marker:none;paint-order:stroke fill markers"
          d="M 55.123835,497.57214 H 567.12383"
-         id="fx-1" />      
+         id="fx-1" 
+         visibility="visible"
+         clip-path="url(#reveal)"/>      
     </g>
-
-
     <g
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        ns0:preamble="/home/afp11/.config/inkscape/extensions/default_packages.tex"
@@ -481,47 +469,13 @@ http://fourier.space/
          id="path10294-1" />
          <!-- The ')' in 'f(x)' on the y-axis -->
       </g>
-      <!-- <text
-       id="text18342"
-       y="257.57214"
-       x="55.123837"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:Helvetica;-inkscape-font-specification:Helvetica;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f0f5fa;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       xml:space="preserve">
-       <tspan
-         style="font-size:18.66666603px;text-align:start;text-anchor:start;fill:#f0f5fa;user-select:none;-moz-user-select: none;"
-         y="252.57214"
-         x="55.123837"
-         id="tspan18340">Function</tspan>
-      </text>
-      'Function' next to the function select box -->
-   
-    <!-- <foreignObject
-       y="235.90814"
-       x="135.80826"
-       height="32"
-       width="192"
-       style="overflow:visible;"
-       id="foFunction">
-       <select id="function" style="width:188px; padding:0px; margin: 0px;">
-        <option value="sin">Sin(x)</option>
-        <option value="exp">Exponential Decay</option>
-        <option value="tan">Tan(x)</option>
-        <option value="gauss">Gaussian</option>
-        <option value="parab">Parabola (2nd Order Polynomial)</option>
-        <option value="parabStep">Parabola with Step Function</option>
-        <option value="poly">Polynomial (6th Order)</option>
-       </select>
-       <div class="slidecontainer">
-         <input type="range" min="0.0001" max="50" value="25" class="slider" id="deltaX" name="deltax" step="0.0001">
-         <label for="deltax">Delta x</label>
-       </div>
-    </foreignObject>
-    <!-- The function select box -->
+      <line
+      x1="-1000" y1="497.57214" x2="1300" y2="497.57214" transform="translate(0,0) rotate(0)" id="lineExt2" style="stroke:#ff0505" stroke-width="2"/>
   </g>
+  
 </svg> 
 
-
-
+<button type="button" id="animButton">Click me</button>
 
 <script src="main.js"></script>
 </body>
