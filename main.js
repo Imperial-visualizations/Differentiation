@@ -70,52 +70,6 @@ var MODULE = (function () {
     }
     fn1s["parabStep"] = fn1s["parab"]
   
-    // Second derivates of the functions in the fns object. We won't need these.
-    var fn2s = { // Second Derivative
-      "sin" : function (z) {
-        return -9 * 4 * Math.PI * Math.PI * Math.sin(3 * 2 * Math.PI * z)
-      },
-      "exp" : function (z) {
-        return 3*25*Math.exp(-5*z);
-      },
-      "tan" : function (z) {
-        return 36*Math.PI*Math.PI*Math.tan(3 * 2 * Math.PI * z)/Math.pow(Math.cos(3 * 2 * Math.PI * z), 2);
-      },
-      "gauss" : function (z) {
-        return Math.exp(-Math.pow((z-0.5)/0.1,2)/2)*((0.5-z)*(0.5-z)-0.1*0.1)/Math.pow(0.1,4);
-      },
-      "parab" : function (z) {
-        return 2*20;
-      },
-      "poly" : function (x) {
-        return 8*8*(5*(8*(x-0.5))**4 - 36*(8*(x-0.5))**2 - 4*(8*(x-0.5)) + 27) / 100*3;
-      }
-    }
-    fn2s["parabStep"] = fn2s["parab"]
-  
-    // Third derivates of the functions in the fns object. We won't need these.
-    var fn3s = { // Third Derivative
-      "sin" : function (z) {
-        return -27 * 8 * Math.PI * Math.PI * Math.PI * Math.cos(3 * 2 * Math.PI * z)
-      },
-      "exp" : function (z) {
-        return -3*125*Math.exp(-5*z);
-      },
-      "tan" : function (z) {
-        return -432*Math.PI**3 *(Math.cos(12 * Math.PI * z)-2)/Math.pow(Math.cos(6 * Math.PI * z), 4);
-      },
-      "gauss" : function (z) {
-        return Math.exp(-Math.pow((z-0.5)/0.1,2)/2)*(z-0.5)*(-(z-0.5)*(z-0.5)+3*0.1*0.1)/Math.pow(0.1,6);
-      },
-      "parab" : function (z) {
-        return 0;
-      },
-      "poly" : function (x) {
-        return 8*8*8*(20*(8*(x-0.5))**3 - 72*(8*(x-0.5)) - 4) / 100*3;
-      }
-    }
-    fn3s["parabStep"] = fn3s["parab"]
-  
     /* This function is called when the function is changed and performs the 
       animation
       */
@@ -167,12 +121,12 @@ var MODULE = (function () {
     that.redraw = function () {
       var x0 = 55.123835, y0 = 497.57214; // Page Coordinates
       var xOffset = el["deltaX"].valueAsNumber;
-      var fxStr = "", gxStr = "";
+      var fxStr = "";
       let f1xStr = "";
-      var f, g, inRange;
+      var f, inRange;
       let f1, inRange1, adj;
 
-      switch(fn) {
+      switch(fn) { // Gets the scaling adjustements for each derivative
         case "sin":
           adj = 19;
           break;
@@ -206,30 +160,17 @@ var MODULE = (function () {
 
         f = Math.min(Math.max(f, -4), 4)
         f1 = Math.min(Math.max(f1, -4), 4)
-        // g is the Taylor series approximation
-        g = p *(fns[fn](z0)  + (i/512 - z0)   * (
-            c1*fn1s[fn](z0) + (i/512 - z0)/2 * (
-            c2*fn2s[fn](z0) + (i/512 - z0)/3 *
-            c3*fn3s[fn](z0) )))
-        g += (1-p) *(fns[oldfn](z0)  + (i/512 - z0)   * (
-            c1*fn1s[oldfn](z0) + (i/512 - z0)/2 * (
-            c2*fn2s[oldfn](z0) + (i/512 - z0)/3 *
-            c3*fn3s[oldfn](z0) )))
 
         fxStr += ((i && inRange)?" L ":" M ") + (x0 + xScale*i/512) + "," + (y0 + yScale * f)
         f1xStr += ((i && inRange1)?" L ":" M ") + (x0 + xScale_1*i/512) + "," + (y0 + yScale_1 * f1)
 
-        gxStr += (i?" L ":" M ") + (x0 + xScale*i/512) + "," + (y0 + yScale * g)
       }
 
       el["fx"].setAttribute("d", fxStr);
       el["fx-1"].setAttribute("d", f1xStr);
-      // el["gxRed"].setAttribute("d", "M " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))) + " L "  + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))));
+
       el["blob"].setAttribute("d", "M " + (x0+xScale*z0) + "," + y0 + " L " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)) ));
       el["blob2"].setAttribute("d", "M " + (x0+xScale*z0 + xOffset) + "," + y0 + " L " + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale)) ));
-      el["gxBlack"].setAttribute("d", gxStr)
-
-      el["gxBlack"].setAttribute("visibility", "hidden") // This will turn off the black line which is the actual differential approx
 
       // Change line style when not at exact derivative 
       if(xOffset === parseFloat(el["deltaX"].getAttribute("min"))){
@@ -248,7 +189,7 @@ var MODULE = (function () {
     that.init = function () {
 
       // Create an array of the elements using their ids and getElementById
-      ["root", "layer1", "layer2", "initText", "graph", "graph1", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "gxRed", "blob", "blob2", "blob-1", "blob2-1", "lineExt", "gxBlack", "gxBlack-1", "deltaX"].map(
+      ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX"].map(
 
         function (id) {
           el[id] = document.getElementById(id);
@@ -263,20 +204,12 @@ var MODULE = (function () {
       xScale = el["xAxis"].getBBox().width;
       yScale = -el["yAxis"].getBBox().height / 2 / 3;
 
-
       xScale_1 = el["xAxis-1"].getBBox().width;
       yScale_1 = -el["yAxis-1"].getBBox().height / 2 / 3;
   
       // Set the cursor to pointer mode when hovering over the graph
       el["graph"].style.cursor = "pointer";
-      
-
-      // Setting X0 twice? Might be a problem here?
-
       X0 = [el["blob"].getBBox().x + 207, el["blob"].getBBox().y];
-
-      //X0_1 = [el["blob-1"].getBBox().x + 207, el["blob-1"].getBBox().y];
-      //X0 = [el["blob2"].getBBox().x + 207, el["blob2"].getBBox().y];
   
       // Create mousePressed variable, set to false by default
       var mousePressed = false
@@ -321,7 +254,6 @@ var MODULE = (function () {
       document.body.onclick = null;
       el["layer1"].style.filter = null;
       el["layer2"].style.filter = null;
-      //el["initText"].style.display = "none";
 
     };
   
