@@ -1,6 +1,8 @@
 // A. Freddie Page - 2017 - Imperial College London
 // http://fourier.space/
 
+
+
 var MODULE = (function () {
     "use strict";
     var that = {},
@@ -11,13 +13,15 @@ var MODULE = (function () {
     var c1=1, c2=0, c3=0; // current c0 etc.
     var o1=1, o2=0, o3=0; // old c0 etc.
     var t1=1, t2=0, t3=0; // target c0 etc.
-    var X0 = [0,0], X0_1=[0,0], dX = [0,0], z00=0.45, z0 = 0.45;;
+    var X0 = [0,0], dX = [0,0], z00=0.45, z0 = 0.45;;
     var el = that.el = {};
   
     var fnOnChange;
     var xScale, yScale, xScale_1, yScale_1;
+    let animTime = "5s";
+    const override = new Event('animationend');
+    let minVal;
 
-  
     /* Defines functions mathematically.
       These functions have been scaled - presumably for aesthetic reasons
       */
@@ -44,58 +48,66 @@ var MODULE = (function () {
         return ((8*(x-0.5))**6/6 - 3*(8*(x-0.5))**4 - 2*(8*(x-0.5))**3/3 + 27*(8*(x-0.5))**2/2 + 18*(8*(x-0.5)) - 30) / 100*3;
       }
     }
-  
     /* First derivates of the functions in the fns object. This could be useful for
       the second page of our vis
       */
     var fn1s = { // First Derivative
       "sin" : function (z) {
-        return (3 * 2 * Math.PI * Math.cos(3 * 2 * Math.PI * z)); //19
+        return (3 * 2 * Math.PI * Math.cos(3 * 2 * Math.PI * z));
       },
       "exp" : function (z) {
-        return (-3*5*Math.exp(-5*z)); //5
+        return (-3*5*Math.exp(-5*z));
       },
       "tan" : function (z) {
-        return (6*Math.PI/Math.pow(Math.cos(3 * 2 * Math.PI * z), 2)); //15
+        return (6*Math.PI/Math.pow(Math.cos(3 * 2 * Math.PI * z), 2));
       },
       "gauss" : function (z) {
-        return (Math.exp(-Math.pow((z-0.5)/0.1,2)/2)*(0.5-z)/0.1/0.1); //7
+        return (Math.exp(-Math.pow((z-0.5)/0.1,2)/2)*(0.5-z)/0.1/0.1);
       },
       "parab" : function (z) {
-        return (2*20*(z-0.5)); //5
+        return (2*20*(z-0.5));
       },
       "poly" : function (x) {
-        return (8*((8*(x-0.5))**5 - 12*(8*(x-0.5))**3 - 2*(8*(x-0.5))**2 + 27*(8*(x-0.5)) + 18) / 100*3); //10
+        return (8*((8*(x-0.5))**5 - 12*(8*(x-0.5))**3 - 2*(8*(x-0.5))**2 + 27*(8*(x-0.5)) + 18) / 100*3);
       }
     }
     fn1s["parabStep"] = fn1s["parab"]
-  
     /* This function is called when the function is changed and performs the 
       animation
       */
-    fnOnChange = function () {
-      oldfn = fn; // Store the original function as oldfn
-      fn = el["function"].value; // Find the new function from the dropdown box
+    fnOnChange = function (funcChange) {
+      funcChange = funcChange || false;
+      z0 = funcChange ? z0 : 0;
+      if(funcChange) {
+        el["rect"].dispatchEvent(override);
+        el["rect"].classList.remove("full");
+
+        oldfn = fn; // Store the original function as oldfn
+        fn = el["function"].value; // Find the new function from the dropdown box
+      }
       clearInterval(ivl); // Reset the animation
       // Set t=0 at current time, and prepare to increment t inside setInterval
       lastFrame = +new Date;
       t=0;
+      let shift = funcChange ? 1 : parseFloat(animTime.substring(0, animTime.length -1))
       /* setInterval repeatedly calls the function iFn with delay 1000/60
         At 60 fps the animation takes 1000ms
         */
-      ivl = setInterval(iFn, 1000/f);
+      ivl = setInterval(iFn, 1000/f, funcChange, shift);
     };
-
     /* iFn gives the frame of the animation depending on the time 
       which is given by t, calculated using Date 
       */
-    iFn = function () {
+    iFn = function (funcChange, shift) {
       var now, x;
       now = +new Date;
       t += (now - lastFrame)/1000;
+      if(!funcChange){
+        z0 = t/shift; // If the button was clicked, linearly increase z0 from 0 to 1 during the animation window, this shifts the gradient along the x axis
+      }
       lastFrame = now;
       // if t > T, we stop the animation
-      if (t > T) {
+      if (t > T*shift) {
         clearInterval(ivl);
         // c1, c2, c3 are for interpolating the Taylor series approximations
         o1 = c1 = t1;
@@ -131,6 +143,8 @@ var MODULE = (function () {
           adj = 19;
           break;
         case "exp":
+        case "parab":
+        case "parabStep":
           adj = 5;
           break;
         case "tan":
@@ -138,9 +152,6 @@ var MODULE = (function () {
           break;
         case "gauss":
           adj = 7;
-          break;
-        case "parab":
-          adj = 5;
           break;
         case "poly":
           adj = 10;
@@ -173,7 +184,7 @@ var MODULE = (function () {
       el["blob2"].setAttribute("d", "M " + (x0+xScale*z0 + xOffset) + "," + y0 + " L " + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale)) ));
 
       // Change line style when not at exact derivative 
-      if(xOffset === parseFloat(el["deltaX"].getAttribute("min"))){
+      if(xOffset === minVal){
         el["lineExt"].setAttribute("stroke-dasharray", "0") 
       } else{
         el["lineExt"].setAttribute("stroke-dasharray", "8 3") 
@@ -182,19 +193,27 @@ var MODULE = (function () {
       let angle = Math.atan2((y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))) - (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))), (x0+xScale*z0 + xOffset) - (x0+xScale*z0)) * 180 / Math.PI;
       const xDiff = (parseFloat(el["lineExt"].getAttribute('x1')) + parseFloat(el["lineExt"].getAttribute("x2"))) / 2;
 
-      el["lineExt"].setAttribute("transform", `translate(${((x0+xScale*z0)+(x0+xScale*z0 + xOffset))/2 - xDiff}, ${((y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)))+(y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))))/2 - y0}) rotate(${angle}, ${xDiff}, ${y0})`);      
+      el["lineExt"].setAttribute("transform", `translate(${((x0+xScale*z0)+(x0+xScale*z0 + xOffset))/2 - xDiff}, ${((y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)))+(y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))))/2 - y0}) rotate(${angle}, ${xDiff}, ${y0})`);
+      el["lineExt2"].setAttribute("transform", `translate(${((x0+xScale*z0)+(x0+xScale*z0 + xOffset))/2 - xDiff}, ${((y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)))+(y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))))/2 - y0}) rotate(90, ${xDiff}, ${y0})`);
+      el["lineExt2"].setAttribute("visibility", "hidden");    // comment this out to connect the function to the derivate while drawing
     };
   
     // This function runs when the page loads (see <body> tag in index.html)
     that.init = function () {
 
       // Create an array of the elements using their ids and getElementById
-      ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX"].map(
+      ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX", "animButton", "rect", "duration", "lineExt2"].map(
 
         function (id) {
           el[id] = document.getElementById(id);
         });
   
+      // This allows for us to use variables within the CSS, so the animation duration and how far the clip-path goes is no longer hard coded
+      let r = document.querySelector(":root");
+      r.style.setProperty('--animDuration', animTime);
+
+      let clicked = false;
+      minVal = parseFloat(el["deltaX"].getAttribute("min"));
       // When "function" changes, animate the change
       el["function"].onchange = fnOnChange;
       // When "deltaX" changes, redraw the graph
@@ -203,6 +222,8 @@ var MODULE = (function () {
       // Find the size of the bounding box in pixels
       xScale = el["xAxis"].getBBox().width;
       yScale = -el["yAxis"].getBBox().height / 2 / 3;
+      const axisWidth = xScale + "px";
+      r.style.setProperty('--axis-width', axisWidth);
 
       xScale_1 = el["xAxis-1"].getBBox().width;
       yScale_1 = -el["yAxis-1"].getBBox().height / 2 / 3;
@@ -218,7 +239,7 @@ var MODULE = (function () {
         /* If the mouse is not pressed, set the cursor to pointer mode 
           and prevent any default events */
         if (!mousePressed) {
-          el["graph"].style.cursor = "pointer";
+          el["graph"].style.cursor = clicked ? "default" : "pointer"; // Visually shows user that they cannot interact with the graph while animation is playing
           return e.preventDefault();
         }
         // Otherwise, set the cursor to grab mode
@@ -234,10 +255,33 @@ var MODULE = (function () {
   
       // Perform the onmousemove function when the mouse is pressed down
       el["graph"].onmousedown = function (e) {
-        mousePressed = true;
+        mousePressed = clicked ? false: true; // Disables user's ability to interact with the graph while animation is playing
         return el["graph"].onmousemove(e);
       };
-  
+      
+      // This function animates the two graphs when the button is clicked
+      el["animButton"].onclick = function(){
+        el["graph"].style.cursor = "default"; // This removes a glitch that causes the cursor to be pointer for a split second
+        el["deltaX"].value = minVal; // Reduces the gradient approx to lowest value
+        el["deltaX"].disabled = true; // Locks slider at minimum value so user cannot mess with the animation
+        animTime = el["duration"].value + "s"; // Overrides the animation duration if the user has entered another value other than 5 seconds
+        r.style.setProperty('--animDuration', animTime);
+        if (!clicked) { // Prevents button spamming
+          fnOnChange(false); // Makes use of the function used to animate the first graph changing functions,, but to change z0 instead
+        }
+        clicked = true;
+        el["rect"].classList.remove("full"); // Resets clip-path animation if already played
+        el["rect"].classList.add("r"); // Adds the derivative animation
+        that.redraw();
+        el["rect"].addEventListener("animationend", function() { // Once the animation has ended this block of code runs
+          el["rect"].classList.remove("r"); // Remove derivative animation
+          el["rect"].classList.add("full"); // Sustains the derivative graph
+          clicked = false; // Allows user to now press the button again this "clicked" flag could be removed as we could disable the button instead
+          el["graph"].style.cursor = "pointer"; // Visually shows the user that they can now interact with the graph
+          el["deltaX"].disabled = false;
+          that.redraw();
+        });
+      }
       // on mouse up, set mousePressed to false
       el["graph"].onmouseup = function (e) {
         mousePressed = false;
