@@ -204,13 +204,24 @@ var MODULE = (function () {
       el["lineExt"].setAttribute("transform", `translate(${((x0+xScale*z0)+(x0+xScale*z0 + xOffset))/2 - xDiff}, ${((y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)))+(y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))))/2 - y0}) rotate(${angle}, ${xDiff}, ${y0})`);
       el["lineExt2"].setAttribute("transform", `translate(${((x0+xScale*z0)+(x0+xScale*z0 + xOffset))/2 - xDiff}, ${((y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)))+(y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))))/2 - y0}) rotate(90, ${xDiff}, ${y0})`);
       el["lineExt2"].setAttribute("visibility", "hidden");    // comment this out to connect the function to the derivate while drawing
+
+      // Display value of gradient
+      var zOffset = xOffset/xScale;
+      var gradient = ((fns[fn](z0 + zOffset) - fns[fn](z0))/zOffset)/18.8;
+      el["gradientDisplayVal"].innerHTML = gradient.toFixed(3).toString();
+      el["gradientDisplayValx1"].innerHTML = (z0 * 6 * Math.PI).toFixed(3).toString();
+      el["gradientDisplayValx2"].innerHTML = (z0 * 6 * Math.PI).toFixed(3).toString();
+      el["gradientDisplayValdx1"].innerHTML =  (zOffset * 6 * Math.PI).toFixed(3).toString();
+      el["gradientDisplayValdx2"].innerHTML =  (zOffset * 6 * Math.PI).toFixed(3).toString();
+
     };
   
     // This function runs when the page loads (see <body> tag in index.html)
     that.init = function () {
 
       // Create an array of the elements using their ids and getElementById
-      ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX", "animButton", "rect", "duration", "lineExt2"].map(
+      ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal",
+      "gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2"].map(
 
         function (id) {
           el[id] = document.getElementById(id);
