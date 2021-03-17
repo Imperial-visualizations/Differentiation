@@ -21,6 +21,7 @@ var MODULE = (function () {
     let animTime = "5s";
     const override = new Event('animationend');
     let minVal;
+    let clicked;
 
     /* Defines functions mathematically.
       These functions have been scaled - presumably for aesthetic reasons
@@ -78,12 +79,18 @@ var MODULE = (function () {
     fnOnChange = function (funcChange) {
       funcChange = funcChange || false;
       z0 = funcChange ? z0 : 0;
+      document.getElementById("animButton").disabled = true; // Prevents button spamming and a glitch that messes with the graphs during the animation
       if(funcChange) {
         el["rect"].dispatchEvent(override);
         el["rect"].classList.remove("full");
 
         oldfn = fn; // Store the original function as oldfn
         fn = el["function"].value; // Find the new function from the dropdown box
+        let fnCopy = fn;
+        if(fnCopy === "parabStep"){ // Allows us to re-use a colour filter instead of making a complete copy
+          fnCopy = "parab";
+        }
+        document.getElementById("func").children[0].setAttribute("xlink:href", `#${fnCopy}Colourmask`); // Applies the respective colour filter to the appropriate function
       }
       clearInterval(ivl); // Reset the animation
       // Set t=0 at current time, and prepare to increment t inside setInterval
@@ -109,6 +116,7 @@ var MODULE = (function () {
       // if t > T, we stop the animation
       if (t > T*shift) {
         clearInterval(ivl);
+        document.getElementById("animButton").disabled = false; // Once the animation ends the button will be available to use
         // c1, c2, c3 are for interpolating the Taylor series approximations
         o1 = c1 = t1;
         o2 = c2 = t2;
@@ -212,7 +220,7 @@ var MODULE = (function () {
       let r = document.querySelector(":root");
       r.style.setProperty('--animDuration', animTime);
 
-      let clicked = false;
+      clicked = false;
       minVal = parseFloat(el["deltaX"].getAttribute("min"));
       // When "function" changes, animate the change
       el["function"].onchange = fnOnChange;

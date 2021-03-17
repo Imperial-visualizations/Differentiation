@@ -38,6 +38,64 @@ http://fourier.space/
    id="root"
    height="875" 
    width="570">
+   <defs>
+      <g id = "derivColourmask">
+         <rect  x="0" y="297.57214" height="200" width="570" fill="green"   stroke="none" />
+         <rect x="0" y="497.57214" height="200" width="570" fill="red" stroke="none"/>
+         <rect x="0" y="496.57214" height="2" width="570" fill="white" stroke="none"/>
+     </g>
+     <g id = "sinColourmask">
+         <rect  x="55.123835" y="0" height="875" width="43" fill="green"   stroke="none" />
+         <rect x="98.123835" y="0" height="875" width="85" fill="red" stroke="none"/>
+         <rect  x="97.123835" y="0" height="875" width="2" fill="white"   stroke="none" />
+         <rect x="183.123835" y="0" height="875" width="86" fill="green" stroke="none"/>
+         <rect  x="181.8" y="0" height="875" width="2" fill="white"   stroke="none" />
+         <rect x="269" y="0" height="875" width="85.8" fill="red" stroke="none"/>
+         <rect  x="267.7" y="0" height="875" width="2" fill="white"   stroke="none" />
+         <rect x="355.123835" y="0" height="875" width="85" fill="green" stroke="none"/>
+         <rect  x="352.9" y="0" height="875" width="2" fill="white"   stroke="none" />
+         <rect x="440.123835" y="0" height="875" width="85" fill="red" stroke="none"/>
+         <rect  x="438.5" y="0" height="875" width="2" fill="white"   stroke="none" />
+         <rect x="525.123835" y="0" height="875" width="45" fill="green" stroke="none"/>
+         <rect  x="523.7" y="0" height="875" width="2" fill="white"   stroke="none" />
+      </g>
+      <g id = "expColourmask">
+         <rect  x="55.123835" y="0" height="875" width="570" fill="red"   stroke="none" />
+      </g>
+      <g id = "tanColourmask">
+         <rect  x="55.123835" y="0" height="875" width="570" fill="green"   stroke="none" />
+      </g>
+      <g id = "gaussColourmask">
+         <rect  x="55.123835" y="0" height="875" width="256" fill="green"   stroke="none" />
+         <rect  x="311.123835" y="0" height="875" width="256" fill="red"   stroke="none" />
+         <rect  x="310" y="0" height="875" width="2" fill="white"   stroke="none" />
+      </g>
+      <g id = "parabColourmask">
+         <rect  x="55.123835" y="0" height="875" width="256" fill="red"   stroke="none" />
+         <rect  x="311.123835" y="0" height="875" width="256" fill="green"   stroke="none" />
+         <rect  x="310" y="0" height="875" width="2" fill="white"   stroke="none" />
+      </g>
+      <g id = "polyColourmask">
+         <rect  x="55.123835" y="0" height="875" width="64" fill="red"   stroke="none" />
+         <rect  x="119.123835" y="0" height="875" width="128" fill="green"   stroke="none" />
+         <rect  x="247.123835" y="0" height="875" width="2" fill="white"   stroke="none" />
+         <rect  x="118" y="0" height="875" width="2" fill="white"   stroke="none" />
+         <rect  x="248.123835" y="0" height="875" width="191" fill="green"   stroke="none" />
+         <rect  x="439.123835" y="0" height="875" width="64" fill="red"   stroke="none" />
+         <rect  x="438" y="0" height="875" width="2" fill="white"   stroke="none" />
+         <rect  x="503.123835" y="0" height="875" width="67" fill="green"   stroke="none" />
+         <rect  x="503" y="0" height="875" width="2" fill="white"   stroke="none" />
+      </g>
+   </defs>
+   <filter id="deriv" x="0" y="0" width="570" height="875" filterUnits="userSpaceOnUse">
+      <feImage xlink:href="#derivColourmask" result="mask1"/>
+       <feComposite in2="SourceGraphic" in="mask1" operator="in" />
+   </filter>
+   <filter id="func" x="0" y="0" width="570" height="875" filterUnits="userSpaceOnUse">
+      <feImage id="funcSRC" xlink:href="#sinColourmask" result="mask1"/>
+       <feComposite in2="SourceGraphic" in="mask1" operator="in" />
+   </filter>
+
    <!-- h=700, w-570 -->
    <!-- change height of above to vary blue bit, so 2 graphs can be included (line 22 and 139)-->
   <defs
@@ -194,16 +252,17 @@ http://fourier.space/
       <path
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#afdb85;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers"
          d="M 55.123835,497.57214 H 567.12383"
-         id="fx" />
+         id="fx"
+         filter="url(#func)"/>
 
       <line
-         x1="-1000" y1="497.57214" x2="1300" y2="497.57214" transform="translate(0,0) rotate(0)" id="lineExt" style="stroke:#ff0505" stroke-width="2"/>
+         x1="-1000" y1="497.57214" x2="1300" y2="497.57214" transform="translate(0,0) rotate(0)" id="lineExt" style="stroke:#000000" stroke-width="2"/>
       <path
-         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
+         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
          d="m 55.123835,497.57214 v 0"
          id="blob" /> <!-- line between two blobs-->
        <path
-         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
+         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
          d="m 55.123835,497.57214 v 0"
          id="blob2" /> <!-- line between two of the blobs-->
       <!-- <circle cx="55.123835" cy="497.57214" r="10"/> The Origin of the axises -->
@@ -379,7 +438,8 @@ http://fourier.space/
          d="M 55.123835,497.57214 H 567.12383"
          id="fx-1" 
          visibility="visible"
-         clip-path="url(#reveal)"/>      
+         clip-path="url(#reveal)"
+         filter="url(#deriv)"/>      
     </g>
     <g
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
