@@ -37,7 +37,7 @@ http://fourier.space/
    version="1.1"
    id="root"
    height="875" 
-   width="570">
+   width="1000">
    <!-- h=700, w-570 -->
    <!-- change height of above to vary blue bit, so 2 graphs can be included (line 22 and 139)-->
   <defs
@@ -171,6 +171,15 @@ http://fourier.space/
        width="0"
        id="rect7177"
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker14780);marker-end:url(#marker15030);paint-order:stroke fill markers;enable-background:accumulate" />
+    <rect
+       style="fill: #7aaed7; stroke: black;"
+       id="right-side-pane"
+       width="400"
+       height="695"
+       x="600"
+       y="0" />
+
+       
     <g
        clip-path="url(#clipPath19347)"
        id="graph">
@@ -303,15 +312,20 @@ http://fourier.space/
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:Helvetica;-inkscape-font-specification:Helvetica;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f0f5fa;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
        xml:space="preserve">
        <tspan
-         style="font-size:18.66666603px;text-align:start;text-anchor:start;fill:#f0f5fa;user-select:none;-moz-user-select: none;"
+         style="font-size:18.66666603px;text-align:start;text-anchor:start;fill:black;user-select:none;-moz-user-select: none;"
          y="252.57214"
-         x="55.123837"
+         x="655.123837"
          id="tspan18340">Function</tspan>
+       <tspan
+         style="font-size:18.66666603px;text-align:start;text-anchor:start;fill:black;user-select:none;-moz-user-select: none;"  
+         y="282.57214"
+         x="655.123837"
+         id="tspan18341">Delta x</tspan>
       </text>
       <!-- 'Function' next to the function select box-->
     <foreignObject
        y="235.90814"
-       x="135.80826"
+       x="735.80826"
        height="32"
        width="192"
        style="overflow:visible;"
@@ -326,10 +340,10 @@ http://fourier.space/
         <option value="poly">Polynomial (6th Order)</option>
        </select>
        <div class="slidecontainer">
-         <input type="range" min="0.0001" max="50" value="25" class="slider" id="deltaX" name="deltax" step="0.0001">
-         <label for="deltax">Delta x</label>
+         <input type="range" min="0.0001" max="50" value="25" class="slider" id="deltaX" name="deltax" step="0.0001" style="width:188px;margin-top:14px;margin-bottom:14px;">
        </div>
        <input type="number" id="duration" min="1" max="10" value="5">
+       <button type="button" id="animButton">Differentiate f(x)</button>
     </foreignObject>
     <!-- The function select box -->
     
@@ -377,10 +391,38 @@ http://fourier.space/
       <path
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#afdb85;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;marker:none;paint-order:stroke fill markers"
          d="M 55.123835,497.57214 H 567.12383"
+<<<<<<< Updated upstream
          id="fx-1" 
          visibility="visible"
          clip-path="url(#reveal)"/>      
-    </g>
+=======
+<<<<<<< Updated upstream
+         id="fx-1" />      
+=======
+         id="fx-1" />
+      <!--<line
+         x1="-1000" y1="497.57214" x2="1300" y2="497.57214" transform="translate(0,0) rotate(0)" id="lineExt-1" style="stroke:#ff0505" stroke-width="2"/>
+         This is the line that is the extension of the line between the two points -->
+         <!-- <path
+            style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers"
+            d="M 55.123835,497.57214 H 567.12383"
+            id="gxRed" /> -->
+         <!-- This is the actual differential approx from Freddie's origional vis-->
+      <path
+         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
+         d="m 55.123835,497.57214 v 0"
+         id="blob-1" />
+       <path
+         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
+         d="m 55.123835,497.57214 v 0"
+         id="blob2-1" />
+      <!-- <circle cx="55.123835" cy="497.57214" r="10"/> The Origin of the axises-->
+
+         
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+
     <g
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        ns0:preamble="/home/afp11/.config/inkscape/extensions/default_packages.tex"
@@ -474,8 +516,6 @@ http://fourier.space/
   </g>
   
 </svg> 
-
-<button type="button" id="animButton">Click me</button>
 
 <script src="main.js"></script>
 </body>
