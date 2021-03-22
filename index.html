@@ -8,7 +8,7 @@ http://fourier.space/
 <meta charset="utf-8" />
 <script src="https://www.coursera.org/widget/coursera-widget-connect-v0.js"></script>
 </head>
-<body style="margin:0px; padding:0px; overflow: scroll; width: 100%; height: 100%;" onload="MODULE.init();"  onclick="MODULE.init();">
+<body style="margin:0px; padding:0px; overflow: hidden; width: 100%; height: 100%;" onload="MODULE.init();"  onclick="MODULE.init();">
    <style>
       :root{
          --animDuration: 1s;
@@ -24,6 +24,10 @@ http://fourier.space/
             to {
                 width: var(--axis-width);
             }
+        }
+        body {
+           transform: scale(0.87);
+           transform-origin: 0 0;
         }
       </style>
 
@@ -214,7 +218,7 @@ http://fourier.space/
          style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#f0f5fa;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers;enable-background:accumulate"
          id="rect19349"
          width="528"
-         height="400"
+         height="394"
          x="47.123837"
          y="297.57214" />
     </clipPath>
@@ -224,7 +228,7 @@ http://fourier.space/
    </clipPath>
   </defs>
   <g
-     transform="translate(-23.123835,-221.57211)"
+     transform="translate(-23.123835,-271.57211)"
      id="layer1"
      style="filter:blur(10px);">
     <rect
@@ -248,9 +252,8 @@ http://fourier.space/
        width="400"
        height="695"
        x="600"
-       y="0" />
-
-       
+       y="0" 
+       transform="translate(0,-2)"/>
     <g
        clip-path="url(#clipPath19347)"
        id="graph">
@@ -259,9 +262,9 @@ http://fourier.space/
          width="528"
          height="800"
          x="47.123837"
-         y="297.57214" />
+         y="200.57214" />
       <g
-         id="g9544">
+         id="g9544" transform="translate(0,0)">
         <path
            id="yAxis"
            d="m 55.123835,689.57214 v -384"
@@ -377,6 +380,7 @@ http://fourier.space/
          id="path10294" />
          <!-- The ')' in 'f(x)' on the y-axis -->
       </g>
+      <g transform="translate(0,80)">
       <text
        id="text18342"
        y="257.57214"
@@ -395,7 +399,7 @@ http://fourier.space/
          id="tspan18341">Delta x</tspan>
       </text>
       <!-- 'Function' next to the function select box-->
-    <foreignObject
+      <foreignObject
        y="235.90814"
        x="735.80826"
        height="32"
@@ -414,14 +418,15 @@ http://fourier.space/
        <div class="slidecontainer">
          <input type="range" min="0.0001" max="50" value="25" class="slider" id="deltaX" name="deltax" step="0.0001" style="width:188px;margin-top:14px;margin-bottom:14px;">
        </div>
-       <input type="number" id="duration" min="1" max="10" value="5">
+       <!-- <input type="number" id="duration" min="1" max="10" value="8" disabled="true"> -->
        <button type="button" id="animButton">Differentiate f(x)</button>
-    </foreignObject>
+      </foreignObject>
+      </g>
     <!-- The function select box -->
     
   </g>
   <g
-     transform="translate(-23.123835,250)"
+     transform="translate(-23.123835,200)"
      id="layer2"
      style="filter:blur(10px);">
     <rect
@@ -466,8 +471,9 @@ http://fourier.space/
          id="fx-1" 
          visibility="visible"
          clip-path="url(#reveal)"
-         filter="url(#deriv)"/>      
+         filter="url(#deriv)"/>   
     </g>
+    <path marker-start="url(#marker9114)" d="M 361.6 377 L 361.5 350" clip-path="url(#reveal)" id="discont" visibility="hidden"></path>
     <g
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        ns0:preamble="/home/afp11/.config/inkscape/extensions/default_packages.tex"

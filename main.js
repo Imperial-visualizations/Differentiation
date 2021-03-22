@@ -18,7 +18,7 @@ var MODULE = (function () {
   
     var fnOnChange;
     var xScale, yScale, xScale_1, yScale_1;
-    let animTime = "5s";
+    let animTime = "8s";
     const override = new Event('animationend');
     let minVal;
     let clicked;
@@ -89,6 +89,9 @@ var MODULE = (function () {
         let fnCopy = fn;
         if(fnCopy === "parabStep"){ // Allows us to re-use a colour filter instead of making a complete copy
           fnCopy = "parab";
+          document.getElementById("discont").setAttribute("visibility", "visible");
+        }else{
+          document.getElementById("discont").setAttribute("visibility", "hidden");
         }
         document.getElementById("func").children[0].setAttribute("xlink:href", `#${fnCopy}Colourmask`); // Applies the respective colour filter to the appropriate function
       }
@@ -283,7 +286,6 @@ var MODULE = (function () {
         el["graph"].style.cursor = "default"; // This removes a glitch that causes the cursor to be pointer for a split second
         el["deltaX"].value = minVal; // Reduces the gradient approx to lowest value
         el["deltaX"].disabled = true; // Locks slider at minimum value so user cannot mess with the animation
-        animTime = el["duration"].value + "s"; // Overrides the animation duration if the user has entered another value other than 5 seconds
         r.style.setProperty('--animDuration', animTime);
         if (!clicked) { // Prevents button spamming
           fnOnChange(false); // Makes use of the function used to animate the first graph changing functions,, but to change z0 instead
