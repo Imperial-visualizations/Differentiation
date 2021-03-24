@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .squiggle {
+          stroke-dasharray: 1000;
+          stroke-dashoffset: 1000;
+          animation: draw 2s linear;
+        }
+        @keyframes draw {
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
+        .solid {
+           stroke-dashoffset: 0;
+        }
+
+        .r {
+            animation: move 1s linear forwards;
+        }
+
+        @keyframes move {
+            to {
+                width: 100%;
+            }
+        }
+        </style>
+
+
+    <svg width="800px" height="600px">
+        <defs>
+          
+          <g id="colormask">
+            <rect  x="0" y="0" height="600" width="50" fill="red"   stroke="none" />
+            <rect  x="50" y="0" height="600" width="20" fill="blue"  stroke="none"   />
+            <rect  x="70" y="0" height="600" width="50" fill="green"    stroke="none" />
+            <rect  x="120" y="0" height="600" width="30" fill="grey"  stroke="none"   />
+            <rect  x="150" y="0" height="600" width="15" fill="black" stroke="none"   />
+            <rect  x="165" y="0" height="600" width="50" fill="blue"   stroke="none"  />
+            <rect  x="215" y="0" height="600" width="20" fill="cyan"  stroke="none"   />
+            <rect  x="235" y="0" height="600" width="50" fill="red"   stroke="none"  />
+            <rect  x="285" y="0" height="600" width="30" fill="pink"  stroke="none"   /> 
+            <rect  x="315" y="0" height="600" width="15" fill="magenta" stroke="none" />
+            <rect  x="330" y="0" height="600" width="50" fill="yellow"   stroke="none"/>
+            <rect  x="380" y="0" height="600" width="20" fill="purple"   stroke="none"/>
+            <rect  x="400" y="0" height="600" width="50" fill="red"   stroke="none"  />
+            <rect  x="450" y="0" height="600" width="30" fill="blue"  stroke="none"  /> 
+            <rect  x="480" y="0" height="600" width="50" fill="pink"   stroke="none" />
+            <rect  x="530" y="0" height="600" width="15" fill="grey" stroke="none"  />
+          </g>
+            
+          <filter id="colorline" x="0" y="0" width="800" height="600" filterUnits="userSpaceOnUse">
+           <feImage xlink:href="#colormask" result="mask1"/>
+            <feComposite in2="SourceGraphic" in="mask1" operator="in" />
+          </filter>
+        </defs>
+
+        <defs>
+            <clipPath id="cut-off-bottom">
+                <rect id="rect-um" width="0" height="10000"/>
+              </clipPath>
+        </defs>
+        
+        <path clip-path="url(#cut-off-bottom)" d="M0 50 l50,30 20,-15 50,-40 30,20 15,40 50,30 20,-15 50,-40 30,20 15,40 50,30 20,-15 50,-40 30,20 15,40 50,30 20,-15 50,-40 30,20 15,40 50,30 20,-15 50,-40 30,20 15,40 " fill="none " stroke="black" stroke-width="3"/>
+      </svg>
+      <button type="button" id="butt" onclick="my_function()">Butt</button>
+</body>
+
+<script>
+    function my_function(){
+        // document.getElementById("cut-off-bottom").classList.add("squiggle");
+        // document.getElementById("sq").classList.add("squiggle");
+        console.log("butt");
+        document.getElementById("rect-um").classList.add("r");
+    }
+
+
+</script>
+</html>

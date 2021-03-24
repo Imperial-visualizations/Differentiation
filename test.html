@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .squiggle {
+          stroke-dasharray: 1000;
+          stroke-dashoffset: 1000;
+          animation: draw 2s linear;
+        }
+        @keyframes draw {
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
+        .solid {
+           stroke-dashoffset: 0;
+        }
+
+        .r {
+            animation: move 1s linear forwards;
+        }
+
+        @keyframes move {
+            to {
+                width: 100%;
+            }
+        }
+        </style>
+
+<svg width="400px" height="100px" style="border:3px solid black">
+    <defs>
+        <g id = "colormask">
+            <!-- <rect  x="0" y="0" height="100" width="100" fill="red"   stroke="none" /> -->
+            <!-- <rect x="100" y="0" height="100" width="300" fill="black" stroke="none"/> -->
+        </g>
+        <marker
+       style="overflow:visible"
+       id="marker9114"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path 
+         transform="scale(0.4) translate(7.4, 1)"
+         style="fill-rule:evenodd;stroke:white;stroke-width:1pt;stroke-opacity:1;fill:#5DFF33;fill-opacity:1"
+         d="M -2.5,-1.0 C -2.5,1.7600000 -4.7400000,4.0 -7.5,4.0 C -10.260000,4.0 -12.5,1.7600000 -12.5,-1.0 C -12.5,-3.7600000 -10.260000,-6.0 -7.5,-6.0 C -4.7400000,-6.0 -2.5,-3.7600000 -2.5,-1.0 z "
+         id="path9112" /> <!-- draws circles-->
+    </marker>
+    </defs>
+    
+
+    <filter id="colorline" x="0" y="0" width="800" height="600" filterUnits="userSpaceOnUse">
+        <feImage xlink:href="#colormask" result="mask1"/>
+         <feComposite in2="SourceGraphic" in="mask1" operator="in" />
+       </filter>
+    <defs>
+        <clipPath id="cut-off-bottom">
+            <rect id="rect-um" width="0" height="10000"/>
+          </clipPath>
+    </defs>
+
+
+    <!-- <circle cx="100" cy="50" r="20" fill="black" clip-path="url(#cut-off-bottom)"/> -->
+      <!-- <path id="sq" d= "M 0 0 L 400 0" stroke-width="1000" stroke="red" visibility="hidden"/> -->
+<path filter="url(#colorline)"clip-path="url(#cut-off-bottom)" id="p" d="M 20 20 L 100 20 L 120 40 L 200 30"
+fill="none " stroke="black" stroke-width="3" marker-start="url(#marker9114)"/>
+
+
+
+
+
+</svg>
+<button type="button" id="butt" onclick="my_function()">Butt</button>
+
+</body>
+
+<script>
+    function my_function(){
+        // document.getElementById("cut-off-bottom").classList.add("squiggle");
+        // document.getElementById("sq").classList.add("squiggle");
+        console.log("butt");
+        document.getElementById("rect-um").classList.add("r");
+
+    }
+
+    function applyFilter(pathVals){
+        let prevColour;
+        if(pathVals[0][1] < pathVals[1][1]){
+            prevColour = "green";
+        }else if(pathVals[0][1] > pathVals[1][1]){
+            prevColour = "red";
+        }else{
+            prevColour="blue"
+        }
+        let primeX = pathVals[0][0];
+        for(i=1; i<pathVals.length; i++){
+            let currY = pathVals[i][1];
+            let prevY = pathVals[i-1][1];
+            let colour;
+            let newRect = document.createElementNS(svgns, "rect");
+            newRect.setAttribute("stroke", "none");
+            newRect.setAttribute("y", "0");
+            newRect.setAttribute("height", "100")
+            newRect.setAttribute("x", primeX);
+            //console.log(pathVals[i], pathVals[i+1]);
+
+            if(prevY > currY){
+                colour = "green"
+                // newRect.setAttribute("fill", "green");
+            } else if(prevY < currY){
+                colour = "red"
+                // newRect.setAttribute("fill", "red");
+            } else{
+                colour = "blue"
+                // newRect.setAttribute("fill", "blue");
+            }
+
+            if(colour != prevColour){
+                newRect.setAttribute("width", pathVals[i-1][0] - primeX);
+                primeX = pathVals[i-1][0];
+                newRect.setAttribute("fill",prevColour);
+                prevColour = colour;
+
+                document.getElementById("colormask").appendChild(newRect);
+
+
+            }
+        newRect = document.createElementNS(svgns, "rect");
+        newRect.setAttribute("stroke", "none");
+        newRect.setAttribute("y", "0");
+        newRect.setAttribute("height", "100")
+        newRect.setAttribute("x", primeX);
+        newRect.setAttribute("width", pathVals[pathVals.length-1][0] - primeX);
+        newRect.setAttribute("fill",colour);
+        document.getElementById("colormask").appendChild(newRect);
+
+            // document.getElementById("colormask").appendChild(newRect);
+        }
+    }
+
+    // variable for the namespace 
+const svgns = "http://www.w3.org/2000/svg";
+
+let pathVals = [[20,20],[100,20],[120,40],[200,30]];
+
+applyFilter(pathVals);
+
+// let newRect = document.createElementNS(svgns, "rect");
+//             newRect.setAttribute("x", pathVals[i][0]);
+//             newRect.setAttribute("y", "0");
+//             newRect.setAttribute("width", pathVals[i+1][0] - pathVals[i][0]);
+//             newRect.setAttribute("height", "100");
+//             newRect.setAttribute("stroke", "none");
+// make a simple rectangle
+
+
+</script>
+</html>
