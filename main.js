@@ -8,7 +8,7 @@ var MODULE = (function () {
     var that = {},
       t = 0, T = 1, f = 60,
       ivl, iFn, lastFrame;
-    var fn="sin", oldfn="sin", p=1; // Default: start with sine
+    var fn=localStorage.getItem("funcType") || "sin", oldfn=localStorage.getItem("funcType") || "sin", p=1; // Default: start with sine if there is no value for "funcType"
     // c, o, t used for taylor series
     var c1=1, c2=0, c3=0; // current c0 etc.
     var o1=1, o2=0, o3=0; // old c0 etc.
@@ -79,21 +79,15 @@ var MODULE = (function () {
     fnOnChange = function (funcChange) {
       funcChange = funcChange || false;
       z0 = funcChange ? z0 : 0;
-      document.getElementById("animButton").disabled = true; // Prevents button spamming and a glitch that messes with the graphs during the animation
+      el["animButton"].disabled = true; // Prevents button spamming and a glitch that messes with the graphs during the animation
       if(funcChange) {
         el["rect"].dispatchEvent(override);
         el["rect"].classList.remove("full");
 
         oldfn = fn; // Store the original function as oldfn
         fn = el["function"].value; // Find the new function from the dropdown box
-        let fnCopy = fn;
-        if(fnCopy === "parabStep"){ // Allows us to re-use a colour filter instead of making a complete copy
-          fnCopy = "parab";
-          document.getElementById("discont").setAttribute("visibility", "visible");
-        }else{
-          document.getElementById("discont").setAttribute("visibility", "hidden");
-        }
-        document.getElementById("func").children[0].setAttribute("xlink:href", `#${fnCopy}Colourmask`); // Applies the respective colour filter to the appropriate function
+        localStorage.setItem("funcType", fn); // Saves the current function on screen to a locally stored variable so that it can be passed over to the other page
+        el["func"].children[0].setAttribute("xlink:href", `#${fn}Colourmask`); // Applies the respective colour filter to the appropriate function
       }
       clearInterval(ivl); // Reset the animation
       // Set t=0 at current time, and prepare to increment t inside setInterval
@@ -119,7 +113,7 @@ var MODULE = (function () {
       // if t > T, we stop the animation
       if (t > T*shift) {
         clearInterval(ivl);
-        document.getElementById("animButton").disabled = false; // Once the animation ends the button will be available to use
+        el["animButton"].disabled = false; // Once the animation ends the button will be available to use
         // c1, c2, c3 are for interpolating the Taylor series approximations
         o1 = c1 = t1;
         o2 = c2 = t2;
@@ -208,19 +202,17 @@ var MODULE = (function () {
       el["lineExt2"].setAttribute("transform", `translate(${((x0+xScale*z0)+(x0+xScale*z0 + xOffset))/2 - xDiff}, ${((y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)))+(y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))))/2 - y0}) rotate(90, ${xDiff}, ${y0})`);
       el["lineExt2"].setAttribute("visibility", "hidden");    // comment this out to connect the function to the derivate while drawing
 
-      // Display value of gradient
-      console.log(xOffset);
+
       if(xOffset == 0.0001){
-        console.log('hi');
         el["gradientDisplay"].style.display = "none";
         el["limitDisplay"].style.display = "initial";
       }
       else{
-        console.log('other hi');
         el["gradientDisplay"].style.display = "initial";
         el["limitDisplay"].style.display = "none";
       }
 
+      // Display value of gradient
       var zOffset = xOffset/xScale;
       var gradient = ((fns[fn](z0 + zOffset) - fns[fn](z0))/zOffset)/18.8;
       el["gradientDisplayVal1"].innerHTML = gradient.toFixed(3).toString();
@@ -237,12 +229,14 @@ var MODULE = (function () {
 
       // Create an array of the elements using their ids and getElementById
       ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal1",
-      "gradientDisplayVal2","gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2", "limitDisplay", "gradientDisplay"].map(
+      "gradientDisplayVal2","gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2", "limitDisplay", "gradientDisplay", "func"].map(
 
         function (id) {
           el[id] = document.getElementById(id);
         });
-  
+
+      el["func"].children[0].setAttribute("xlink:href", `#${fn}Colourmask`); // Applies the correct colour filter to the function which was brough over by the previous page
+
       // This allows for us to use variables within the CSS, so the animation duration and how far the clip-path goes is no longer hard coded
       let r = document.querySelector(":root");
       r.style.setProperty('--animDuration', animTime);
@@ -280,7 +274,7 @@ var MODULE = (function () {
         // Otherwise, set the cursor to grab mode
         el["graph"].style.cursor = "grabbing";
         // Find the position of the cursor
-        dX = [e.clientX/0.87 - X0[0], e.clientY - X0[1]]
+        dX = [e.clientX / 0.87 - X0[0], e.clientY - X0[1]]
         // Scale the x component of the mouse position between 0 and 1
         z0 = Math.min(Math.max(z00 + dX[0]/xScale, 0), 1 - el["deltaX"].valueAsNumber/xScale);
         // Redraw the graph
