@@ -6,7 +6,7 @@ var MODULE = (function () {
     var that = {},
       t = 0, T = 1, f = 60,
       ivl, iFn, lastFrame;
-    var fn="sin", oldfn="sin", p=1; // Default: start with sine
+    var fn=localStorage.getItem("funcType") || "sin", oldfn=localStorage.getItem("funcType") || "sin", p=1; // Default: start with sine if there is no value for "funType"
     // c, o, t used for taylor series
     var c1=1, c2=0, c3=0; // current c0 etc.
     var o1=1, o2=0, o3=0; // old c0 etc.
@@ -43,83 +43,13 @@ var MODULE = (function () {
       }
     }
   
-    /* First derivates of the functions in the fns object. This could be useful for
-      the second page of our vis
-      */
-    var fn1s = { // First Derivative
-      "sin" : function (z) {
-        return 3 * 2 * Math.PI * Math.cos(3 * 2 * Math.PI * z)
-      },
-      "exp" : function (z) {
-        return -3*5*Math.exp(-5*z);
-      },
-      "tan" : function (z) {
-        return 6*Math.PI/Math.pow(Math.cos(3 * 2 * Math.PI * z), 2);
-      },
-      "gauss" : function (z) {
-        return Math.exp(-Math.pow((z-0.5)/0.1,2)/2)*(0.5-z)/0.1/0.1;
-      },
-      "parab" : function (z) {
-        return 2*20*(z-0.5);
-      },
-      "poly" : function (x) {
-        return 8*((8*(x-0.5))**5 - 12*(8*(x-0.5))**3 - 2*(8*(x-0.5))**2 + 27*(8*(x-0.5)) + 18) / 100*3;
-      }
-    }
-    fn1s["parabStep"] = fn1s["parab"]
-  
-    // Second derivates of the functions in the fns object. We won't need these.
-    var fn2s = { // Second Derivative
-      "sin" : function (z) {
-        return -9 * 4 * Math.PI * Math.PI * Math.sin(3 * 2 * Math.PI * z)
-      },
-      "exp" : function (z) {
-        return 3*25*Math.exp(-5*z);
-      },
-      "tan" : function (z) {
-        return 36*Math.PI*Math.PI*Math.tan(3 * 2 * Math.PI * z)/Math.pow(Math.cos(3 * 2 * Math.PI * z), 2);
-      },
-      "gauss" : function (z) {
-        return Math.exp(-Math.pow((z-0.5)/0.1,2)/2)*((0.5-z)*(0.5-z)-0.1*0.1)/Math.pow(0.1,4);
-      },
-      "parab" : function (z) {
-        return 2*20;
-      },
-      "poly" : function (x) {
-        return 8*8*(5*(8*(x-0.5))**4 - 36*(8*(x-0.5))**2 - 4*(8*(x-0.5)) + 27) / 100*3;
-      }
-    }
-    fn2s["parabStep"] = fn2s["parab"]
-  
-    // Third derivates of the functions in the fns object. We won't need these.
-    var fn3s = { // Third Derivative
-      "sin" : function (z) {
-        return -27 * 8 * Math.PI * Math.PI * Math.PI * Math.cos(3 * 2 * Math.PI * z)
-      },
-      "exp" : function (z) {
-        return -3*125*Math.exp(-5*z);
-      },
-      "tan" : function (z) {
-        return -432*Math.PI**3 *(Math.cos(12 * Math.PI * z)-2)/Math.pow(Math.cos(6 * Math.PI * z), 4);
-      },
-      "gauss" : function (z) {
-        return Math.exp(-Math.pow((z-0.5)/0.1,2)/2)*(z-0.5)*(-(z-0.5)*(z-0.5)+3*0.1*0.1)/Math.pow(0.1,6);
-      },
-      "parab" : function (z) {
-        return 0;
-      },
-      "poly" : function (x) {
-        return 8*8*8*(20*(8*(x-0.5))**3 - 72*(8*(x-0.5)) - 4) / 100*3;
-      }
-    }
-    fn3s["parabStep"] = fn3s["parab"]
-  
     /* This function is called when the function is changed and performs the 
       animation
       */
     fnOnChange = function () {
       oldfn = fn; // Store the original function as oldfn
       fn = el["function"].value; // Find the new function from the dropdown box
+      localStorage.setItem("funcType", fn); // Saves the current function on screen to a locally stored variable so that it can be passed over to the other page
       clearInterval(ivl); // Reset the animation
       // Set t=0 at current time, and prepare to increment t inside setInterval
       lastFrame = +new Date;
@@ -165,8 +95,8 @@ var MODULE = (function () {
     that.redraw = function () {
       var x0 = 55.123835, y0 = 497.57214; // Page Coordinates
       var xOffset = el["deltaX"].valueAsNumber;
-      var fxStr = "", gxStr = "";
-      var f, g, inRange;
+      var fxStr = "";
+      var f, inRange;
 
       /* This draws each of the functions, including when animation is running, by
         calculating the function at 512 points and drawing straight lines between
@@ -177,27 +107,13 @@ var MODULE = (function () {
         f = p*fns[fn](i/512) + (1-p)*fns[oldfn](i/512) || 0
         inRange = Math.abs(f) < 4;
         f = Math.min(Math.max(f, -4), 4)
-        // g is the Taylor series approximation
-        g = p *(fns[fn](z0)  + (i/512 - z0)   * (
-            c1*fn1s[fn](z0) + (i/512 - z0)/2 * (
-            c2*fn2s[fn](z0) + (i/512 - z0)/3 *
-            c3*fn3s[fn](z0) )))
-        g += (1-p) *(fns[oldfn](z0)  + (i/512 - z0)   * (
-            c1*fn1s[oldfn](z0) + (i/512 - z0)/2 * (
-            c2*fn2s[oldfn](z0) + (i/512 - z0)/3 *
-            c3*fn3s[oldfn](z0) )))
 
         fxStr += ((i && inRange)?" L ":" M ") + (x0 + xScale*i/512) + "," + (y0 + yScale * f)
-        gxStr += (i?" L ":" M ") + (x0 + xScale*i/512) + "," + (y0 + yScale * g)
       }
 
       el["fx"].setAttribute("d", fxStr);
-      // el["gxRed"].setAttribute("d", "M " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))) + " L "  + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))));
       el["blob"].setAttribute("d", "M " + (x0+xScale*z0) + "," + y0 + " L " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)) ));
       el["blob2"].setAttribute("d", "M " + (x0+xScale*z0 + xOffset) + "," + y0 + " L " + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale)) ));
-      el["gxBlack"].setAttribute("d", gxStr)
-
-      el["gxBlack"].setAttribute("visibility", "hidden") // This will turn off the black line which is the actual differential approx
 
       // Change line style when not at exact derivative 
       if(xOffset === 0.0001){
@@ -220,6 +136,8 @@ var MODULE = (function () {
           el[id] = document.getElementById(id);
         });
   
+      localStorage.setItem("funcType", fn); // Creates a local variable "funcType" so that we can keep the selected function consistent when moving to other pages
+
       // When "function" changes, animate the change
       el["function"].onchange = fnOnChange;
       // When "deltaX" changes, redraw the graph

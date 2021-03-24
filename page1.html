@@ -173,16 +173,6 @@ http://fourier.space/
       <line
          x1="-1000" y1="497.57214" x2="1300" y2="497.57214" transform="translate(0,0) rotate(0)" id="lineExt" style="stroke:#ff0505" stroke-width="2"/>
          <!-- This is the line that is the extension of the line between the two points -->
-         <!-- <path
-            style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers"
-            d="M 55.123835,497.57214 H 567.12383"
-            id="gxRed" /> -->
-         <!-- This is the line in between the two points -->
-      <path
-         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#212c06;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers"
-         d="M 55.123835,300 H 567.12383"
-         id="gxBlack" />
-         <!-- This is the actual differential approx from Freddie's origional vis-->
       <path
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker9114);marker-end:url(#marker9114);paint-order:stroke fill markers"
          d="m 55.123835,497.57214 v 0"
@@ -293,7 +283,7 @@ http://fourier.space/
         <option value="tan">Tan(x)</option>
         <option value="gauss">Gaussian</option>
         <option value="parab">Parabola (2nd Order Polynomial)</option>
-        <option value="parabStep">Parabola with Step Function</option>
+        <!-- <option value="parabStep">Parabola with Step Function</option> -->
         <option value="poly">Polynomial (6th Order)</option>
        </select>
     </foreignObject>
@@ -301,8 +291,11 @@ http://fourier.space/
   <text id="initText" text-anchor="middle" width="500px" x="50%" y="250" style="fill: white; font-family: Helvetica, Nimbus Sans L, Arial, sans-serif; font-weight: bold; font-size: 24pt;">Click to begin…</text>
 </svg>
 
+<form method="get" action="index.html" style="position: absolute; left: 510px; top: 505px">
+   <button id="next" type="submit">Next&gt;&gt;</button>
+</form>
 <div class="slidecontainer">
-   <input type="range" min="0.0001" max="50" value="25" class="slider" id="deltaX" name="deltax">
+   <input type="range" min="0.0001" max="100" value="25" class="slider" id="deltaX" name="deltax">
    <label for="deltax">Delta x</label>
  </div>
 
