@@ -209,9 +209,22 @@ var MODULE = (function () {
       el["lineExt2"].setAttribute("visibility", "hidden");    // comment this out to connect the function to the derivate while drawing
 
       // Display value of gradient
+      console.log(xOffset);
+      if(xOffset == 0.0001){
+        console.log('hi');
+        el["gradientDisplay"].style.display = "none";
+        el["limitDisplay"].style.display = "initial";
+      }
+      else{
+        console.log('other hi');
+        el["gradientDisplay"].style.display = "initial";
+        el["limitDisplay"].style.display = "none";
+      }
+
       var zOffset = xOffset/xScale;
       var gradient = ((fns[fn](z0 + zOffset) - fns[fn](z0))/zOffset)/18.8;
-      el["gradientDisplayVal"].innerHTML = gradient.toFixed(3).toString();
+      el["gradientDisplayVal1"].innerHTML = gradient.toFixed(3).toString();
+      el["gradientDisplayVal2"].innerHTML = gradient.toFixed(3).toString();
       el["gradientDisplayValx1"].innerHTML = (z0 * 6 * Math.PI).toFixed(3).toString();
       el["gradientDisplayValx2"].innerHTML = (z0 * 6 * Math.PI).toFixed(3).toString();
       el["gradientDisplayValdx1"].innerHTML =  (zOffset * 6 * Math.PI).toFixed(3).toString();
@@ -223,8 +236,8 @@ var MODULE = (function () {
     that.init = function () {
 
       // Create an array of the elements using their ids and getElementById
-      ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal",
-      "gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2"].map(
+      ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal1",
+      "gradientDisplayVal2","gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2", "limitDisplay", "gradientDisplay"].map(
 
         function (id) {
           el[id] = document.getElementById(id);
@@ -267,7 +280,7 @@ var MODULE = (function () {
         // Otherwise, set the cursor to grab mode
         el["graph"].style.cursor = "grabbing";
         // Find the position of the cursor
-        dX = [e.clientX - X0[0], e.clientY - X0[1]]
+        dX = [e.clientX/0.87 - X0[0], e.clientY - X0[1]]
         // Scale the x component of the mouse position between 0 and 1
         z0 = Math.min(Math.max(z00 + dX[0]/xScale, 0), 1 - el["deltaX"].valueAsNumber/xScale);
         // Redraw the graph
