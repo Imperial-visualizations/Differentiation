@@ -39,17 +39,14 @@ http://fourier.space/
 </div>
 <div id="gradientDisplay" style="position: absolute; left: 610px; top: 80px;">
    <!-- <h2> Gradient = </h2> -->
-   <img src="equationBlank.svg" style="position: absolute; left:0px; top: 100px;"/> 
-   <h3 style="position: absolute; left: 270px; top: 90px"> = </h3>
-   <h3 id="gradientDisplayVal" style="position: absolute; left: 290px; top: 90px"> 0 </h3>
-   <h5 id="gradientDisplayValx1" style="position: absolute; left: 73px; top: 80px"> 0 </h5>
-   <h5 id="gradientDisplayValx2" style="position: absolute; left: 213px; top: 80px"> 0 </h5>
-   <h5 id="gradientDisplayValdx1" style="position: absolute; left: 130px; top: 80px"> 0 </h5>
-   <h5 id="gradientDisplayValdx2" style="position: absolute; left: 130px; top: 105px"> 0 </h5>
-   <form method="get" action="page1.html" style="position: absolute; left: 0px; top: 200px">
-      <button type="submit">&lt;&lt;Back</button>
-  </form>
-
+   <img src="equationBlank.svg" style="position: absolute; left:0px; top: 100px; -webkit-filter: invert(1);
+   filter: invert(1);"/> 
+   <h3 style="position: absolute; left: 270px; top: 90px; color: white;"> = </h3>
+   <h3 id="gradientDisplayVal1" style="position: absolute; left: 290px; top: 90px; color: white;"> 0 </h3>
+   <h5 id="gradientDisplayValx1" style="position: absolute; left: 73px; top: 80px;  color: white;"> 0 </h5>
+   <h5 id="gradientDisplayValx2" style="position: absolute; left: 213px; top: 80px;  color: white;"> 0 </h5>
+   <h5 id="gradientDisplayValdx1" style="position: absolute; left: 130px; top: 80px;  color: white;"> 0 </h5>
+   <h5 id="gradientDisplayValdx2" style="position: absolute; left: 130px; top: 105px;  color: white;"> 0 </h5>
 </div>
 
 <svg
@@ -428,6 +425,7 @@ http://fourier.space/
        <div class="slidecontainer">
          <input type="range" min="0.0001" max="50" value="25" class="slider" id="deltaX" name="deltax" step="0.0001" style="width:188px;margin-top:14px;margin-bottom:14px;">
        </div>
+       <!-- <input type="number" id="duration" min="1" max="10" value="8" disabled="true"> -->
        <button type="button" id="animButton">Differentiate f(x)</button>
       </foreignObject>
       </g>
@@ -573,7 +571,6 @@ http://fourier.space/
       </g>
       <line
       x1="-1000" y1="497.57214" x2="1300" y2="497.57214" transform="translate(0,0) rotate(0)" id="lineExt2" style="stroke:#ff0505" stroke-width="2"/>
-      <!-- This line is used for testing purposes to see if the drawing animations line up exactly, it is defualted to hidden and only seen when made visible, in the end this can be removed-->
   </g>
   
 </svg> 
