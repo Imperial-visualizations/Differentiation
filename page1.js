@@ -131,7 +131,7 @@ var MODULE = (function () {
     // This function runs when the page loads (see <body> tag in index.html)
     that.init = function () {
       // Create an array of the elements using their ids and getElementById
-      ["root", "layer1", "initText", "graph", "function", "xAxis", "yAxis", "fx", "gxRed", "blob", "blob2", "lineExt", "gxBlack", "deltaX"].map(
+      ["root", "graph", "function", "xAxis", "yAxis", "fx", "blob", "blob2", "lineExt", "deltaX"].map(
         function (id) {
           el[id] = document.getElementById(id);
         });
@@ -194,8 +194,6 @@ var MODULE = (function () {
       that.redraw()
   
       document.body.onclick = null;
-      el["layer1"].style.filter = null;
-      el["initText"].style.display = "none";
 
     };
   

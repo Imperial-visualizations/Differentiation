@@ -137,7 +137,7 @@ var MODULE = (function () {
   
     that.redraw = function () {
       var x0 = 55.123835, y0 = 497.57214; // Page Coordinates
-      var xOffset = el["deltaX"].valueAsNumber;
+      var xOffset = 0.0001;
       var fxStr = "";
       let f1xStr = "";
       var f, inRange;
@@ -188,13 +188,6 @@ var MODULE = (function () {
       el["blob"].setAttribute("d", "M " + (x0+xScale*z0) + "," + y0 + " L " + (x0+xScale*z0) + "," + (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)) ));
       el["blob2"].setAttribute("d", "M " + (x0+xScale*z0 + xOffset) + "," + y0 + " L " + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale)) ));
 
-      // Change line style when not at exact derivative 
-      if(xOffset === minVal){
-        el["lineExt"].setAttribute("stroke-dasharray", "0") 
-      } else{
-        el["lineExt"].setAttribute("stroke-dasharray", "8 3") 
-      }
-
       let angle = Math.atan2((y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))) - (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))), (x0+xScale*z0 + xOffset) - (x0+xScale*z0)) * 180 / Math.PI;
       const xDiff = (parseFloat(el["lineExt"].getAttribute('x1')) + parseFloat(el["lineExt"].getAttribute("x2"))) / 2;
 
@@ -228,7 +221,7 @@ var MODULE = (function () {
     that.init = function () {
 
       // Create an array of the elements using their ids and getElementById
-      ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal1",
+      ["root", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal1",
       "gradientDisplayVal2","gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2", "limitDisplay", "gradientDisplay", "func"].map(
 
         function (id) {
@@ -242,11 +235,10 @@ var MODULE = (function () {
       r.style.setProperty('--animDuration', animTime);
 
       clicked = false;
-      minVal = parseFloat(el["deltaX"].getAttribute("min"));
+      minVal = 0.0001;
+      el["lineExt"].setAttribute("stroke-dasharray", "0");
       // When "function" changes, animate the change
       el["function"].onchange = fnOnChange;
-      // When "deltaX" changes, redraw the graph
-      el["deltaX"].oninput = this.redraw;
   
       // Find the size of the bounding box in pixels
       xScale = el["xAxis"].getBBox().width;
@@ -276,7 +268,7 @@ var MODULE = (function () {
         // Find the position of the cursor
         dX = [e.clientX / 0.87 - X0[0], e.clientY - X0[1]]
         // Scale the x component of the mouse position between 0 and 1
-        z0 = Math.min(Math.max(z00 + dX[0]/xScale, 0), 1 - el["deltaX"].valueAsNumber/xScale);
+        z0 = Math.min(Math.max(z00 + dX[0]/xScale, 0), 1);
         // Redraw the graph
         that.redraw();
         return e.preventDefault();
@@ -291,8 +283,6 @@ var MODULE = (function () {
       // This function animates the two graphs when the button is clicked
       el["animButton"].onclick = function(){
         el["graph"].style.cursor = "default"; // This removes a glitch that causes the cursor to be pointer for a split second
-        el["deltaX"].value = minVal; // Reduces the gradient approx to lowest value
-        el["deltaX"].disabled = true; // Locks slider at minimum value so user cannot mess with the animation
         r.style.setProperty('--animDuration', animTime);
         if (!clicked) { // Prevents button spamming
           fnOnChange(false); // Makes use of the function used to animate the first graph changing functions,, but to change z0 instead
@@ -306,7 +296,6 @@ var MODULE = (function () {
           el["rect"].classList.add("full"); // Sustains the derivative graph
           clicked = false; // Allows user to now press the button again this "clicked" flag could be removed as we could disable the button instead
           el["graph"].style.cursor = "pointer"; // Visually shows the user that they can now interact with the graph
-          el["deltaX"].disabled = false;
           that.redraw();
         });
       }
@@ -324,8 +313,6 @@ var MODULE = (function () {
       that.redraw()
   
       document.body.onclick = null;
-      el["layer1"].style.filter = null;
-      el["layer2"].style.filter = null;
 
     };
   
