@@ -221,7 +221,7 @@ var MODULE = (function () {
     that.init = function () {
 
       // Create an array of the elements using their ids and getElementById
-      ["root", "layer1", "layer2", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "deltaX", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal1",
+      ["root", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal1",
       "gradientDisplayVal2","gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2", "limitDisplay", "gradientDisplay", "func"].map(
 
         function (id) {
@@ -313,8 +313,6 @@ var MODULE = (function () {
       that.redraw()
   
       document.body.onclick = null;
-      el["layer1"].style.filter = null;
-      el["layer2"].style.filter = null;
 
     };
   
