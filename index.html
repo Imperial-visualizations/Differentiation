@@ -43,7 +43,7 @@ http://fourier.space/
       <button type="submit">&lt;&lt;Back</button>
    </form>
 </div>
-<div id="gradientDisplay" style="position: absolute; left: 610px; top: 80px;">
+<div id="gradientDisplay" style="position: absolute; left: 1350px; top: 80px;">
    <!-- <h2> Gradient = </h2> -->
    <img src="equationBlank.svg" style="position: absolute; left:0px; top: 100px; -webkit-filter: invert(1);
    filter: invert(1);"/> 
@@ -68,8 +68,9 @@ http://fourier.space/
    xmlns:xlink="http://www.w3.org/1999/xlink"
    version="1.1"
    id="root"
-   height="875" 
-   width="1000">
+   height="900"
+   width="125%">
+   <!--when I change height to 100%, the graphs are cut off- not sure why-->
    <defs>
       <g id = "derivColourmask">
          <rect  x="0" y="297.57214" height="200" width="570" fill="green"   stroke="none" />
@@ -249,25 +250,26 @@ http://fourier.space/
     <rect
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581-1);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers;enable-background:accumulate"
        id="rect4573-0"
-       width="570"
-       height="480"
+       width="100%"
+       height="100%"
        x="23.123835"
        y="221.57211" />
-    <rect
+    <!--<rect
        transform="translate(23.123835,221.57211)"
        y="0"
        x="0"
        height="0"
        width="0"
        id="rect7177"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker14780);marker-end:url(#marker15030);paint-order:stroke fill markers;enable-background:accumulate" />
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker14780);marker-end:url(#marker15030);paint-order:stroke fill markers;enable-background:accumulate" />-->
     <rect
        style="fill: #7aaed7; stroke: black;"
        id="right-side-pane"
+       x="1350"
+       y="300"
        width="400"
-       height="695"
-       x="600"
-       y="0" 
+       height="770"
+       pathLength="2800"
        transform="translate(0,-2)"/>
     <g
        clip-path="url(#clipPath19347)"
@@ -405,13 +407,13 @@ http://fourier.space/
        <tspan
          style="font-size:18.66666603px;text-align:start;text-anchor:start;fill:black;user-select:none;-moz-user-select: none;"
          y="252.57214"
-         x="655.123837"
+         x="1385.123837"
          id="tspan18340">Function</tspan>
       </text>
       <!-- 'Function' next to the function select box-->
       <foreignObject
        y="235.90814"
-       x="735.80826"
+       x="1485.80826"
        height="32"
        width="192"
        style="overflow:visible;"
@@ -442,7 +444,8 @@ http://fourier.space/
        width="570"
        height="400"
        x="23.123835"
-       y="222" />
+       y="222" />-->
+       <!--The above section creates separate rectangles for the graphs-->
     <rect
        transform="translate(23.123835,221.57211)"
        y="0"
@@ -529,7 +532,7 @@ http://fourier.space/
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          id="path10288-1" />
          <!-- the 'f' in 'f(x)' on the y-axis -->
-         <path
+       <path
          d="m 305.18,692.79 v 0 0.01 0 0 0.01 0 0 l -0.01,0.01 v 0 0 0.01 h -0.01 v 0.01 0 l -0.01,0.01 v 0.01 h -0.01 v 0.01 h -0.01 v 0.01 0 l -0.01,0.01 v 0 0 l -0.01,0.01 v 0 l -0.01,0.01 v 0 l -0.01,0.01 v 0 l -0.01,0.01 v 0.01 h -0.01 v 0.01 h -0.01 l -0.01,0.01 v 0.01 h -0.01 l -0.01,0.01 -0.01,0.01 V 693 h -0.01 c -1.25,1.26 -1.57,3.13 -1.57,4.65 0,1.73 0.38,3.46 1.61,4.7 0.13,0.12 0.13,0.14 0.13,0.17 0,0.07 -0.04,0.1 -0.1,0.1 -0.1,0 -1,-0.67 -1.59,-1.94 -0.51,-1.09 -0.63,-2.19 -0.63,-3.03 0,-0.77 0.12,-1.97 0.66,-3.1 0.6,-1.22 1.46,-1.86 1.56,-1.86 0.06,0 0.1,0.03 0.1,0.1 z"
          font-size-adjust="none"
          font-stretch="normal"
