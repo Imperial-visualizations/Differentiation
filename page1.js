@@ -6,7 +6,7 @@ var MODULE = (function () {
     var that = {},
       t = 0, T = 1, f = 60,
       ivl, iFn, lastFrame;
-    var fn=localStorage.getItem("funcType") || "sin", oldfn=localStorage.getItem("funcType") || "sin", p=1; // Default: start with sine if there is no value for "funType"
+    var fn=sessionStorage.getItem("funcType") || "exp", oldfn=sessionStorage.getItem("funcType") || "exp", p=1; // Default: start with sine if there is no value for "funType"
     // c, o, t used for taylor series
     var c1=1, c2=0, c3=0; // current c0 etc.
     var o1=1, o2=0, o3=0; // old c0 etc.
@@ -49,7 +49,7 @@ var MODULE = (function () {
     fnOnChange = function () {
       oldfn = fn; // Store the original function as oldfn
       fn = el["function"].value; // Find the new function from the dropdown box
-      localStorage.setItem("funcType", fn); // Saves the current function on screen to a locally stored variable so that it can be passed over to the other page
+      sessionStorage.setItem("funcType", fn); // Saves the current function on screen to a locally stored variable so that it can be passed over to the other page
       clearInterval(ivl); // Reset the animation
       // Set t=0 at current time, and prepare to increment t inside setInterval
       lastFrame = +new Date;
@@ -136,7 +136,7 @@ var MODULE = (function () {
           el[id] = document.getElementById(id);
         });
   
-      localStorage.setItem("funcType", fn); // Creates a local variable "funcType" so that we can keep the selected function consistent when moving to other pages
+      sessionStorage.setItem("funcType", fn); // Creates a local variable "funcType" so that we can keep the selected function consistent when moving to other pages
 
       // When "function" changes, animate the change
       el["function"].onchange = fnOnChange;
