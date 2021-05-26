@@ -228,7 +228,7 @@ var MODULE = (function () {
           el[id] = document.getElementById(id);
         });
 
-      el["func"].children[0].setAttribute("xlink:href", `#${fn}Colourmask`); // Applies the correct colour filter to the function which was brough over by the previous page
+      el["func"].children[0].setAttribute("xlink:href", `#${fn}Colourmask`); // Applies the correct colour filter to the function which was brought over by the previous page
 
       // This allows for us to use variables within the CSS, so the animation duration and how far the clip-path goes is no longer hard coded
       let r = document.querySelector(":root");
