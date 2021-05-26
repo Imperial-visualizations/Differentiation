@@ -9,6 +9,12 @@ http://fourier.space/
 <script src="https://www.coursera.org/widget/coursera-widget-connect-v0.js"></script>
 </head>
 <body style="margin:0px; padding:0px; overflow: hidden; width: 100%; height: 100%;" onload="MODULE.init();"  onclick="MODULE.init();">
+   <style>
+              body {
+           transform: scale(1.3);
+           transform-origin: 0 0;
+        }
+   </style>
 <svg
    xmlns:ns0="http://www.iki.fi/pav/software/textext/"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -19,8 +25,8 @@ http://fourier.space/
    xmlns:xlink="http://www.w3.org/1999/xlink"
    version="1.1"
    id="root"
-   height="500" 
-   width="570">
+   height="900" 
+   width="1900">
    <!-- h=500, w-570 -->
   <defs
      id="defs4">
@@ -133,27 +139,36 @@ http://fourier.space/
     <rect
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581-1);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:stroke fill markers;enable-background:accumulate"
        id="rect4573-0"
-       width="570"
-       height="500"
+       width="100%"
+       height="100%"
        x="23.123835"
        y="221.57211" />
-    <rect
+    <!--<rect
        transform="translate(23.123835,221.57211)"
        y="0"
        x="0"
        height="0"
        width="0"
        id="rect7177"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker14780);marker-end:url(#marker15030);paint-order:stroke fill markers;enable-background:accumulate" />
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:url(#radialGradient4581);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:url(#marker14780);marker-end:url(#marker15030);paint-order:stroke fill markers;enable-background:accumulate" />-->
+    <rect
+       style="fill: #7aaed7; stroke: black;"
+       id="right-side-pane"
+       x="650"
+       y="250"
+       width="400"
+       height="500"
+       pathLength="2800"
+       transform="translate(0,-2)"/>  
     <g
        clip-path="url(#clipPath19347)"
        id="graph">
       <rect
          style="fill: transparent;"
          width="528"
-         height="400"
+         height="800"
          x="47.123837"
-         y="297.57214" />
+         y="200.57214" />
       <g
          id="g9544">
         <path
@@ -258,20 +273,28 @@ http://fourier.space/
          stroke-miterlimit="10.433"
          word-spacing="normal"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:#f0f5fa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         id="path10294" /></g>    <text
+         id="path10294" /></g>
+      <text
        id="text18342"
        y="257.57214"
        x="55.123837"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:Helvetica;-inkscape-font-specification:Helvetica;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f0f5fa;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       xml:space="preserve"><tspan
-         style="font-size:18.66666603px;text-align:start;text-anchor:start;fill:#f0f5fa;user-select:none;-moz-user-select: none;"
-         y="257.57214"
-         x="55.123837"
-         id="tspan18340">Function</tspan></text>
+       xml:space="preserve">
+       <tspan
+         style="font-size:18.66666603px;text-align:start;text-anchor:start;fill:black;user-select:none;-moz-user-select: none;"
+         y="307.57214"
+         x="685.123837"
+         id="tspan18340">Function</tspan>
+      <tspan
+         style="font-size:18.66666603px;text-align:start;text-anchor:start;fill:black;user-select:none;-moz-user-select: none;"  
+         y="342.57214"
+         x="685.123837"
+         id="tspan18341">Delta x</tspan>
+      </text>
    
     <foreignObject
-       y="235.90814"
-       x="135.80826"
+       y="290.90814"
+       x="785.80826"
        height="32"
        width="192"
        style="overflow:visible;"
@@ -285,18 +308,21 @@ http://fourier.space/
         <!-- <option value="parabStep">Parabola with Step Function</option> -->
         <option value="poly">Polynomial (6th Order)</option>
        </select>
+       <div class="slidecontainer">
+         <input type="range" min="0.0001" max="100" value="25" class="slider" id="deltaX" name="deltax" step="0.0001" style="width:188px;margin-top:19px;margin-bottom:14px;">
+       </div>      
     </foreignObject>
   </g>
   <!-- <text id="initText" text-anchor="middle" width="500px" x="50%" y="250" style="fill: white; font-family: Helvetica, Nimbus Sans L, Arial, sans-serif; font-weight: bold; font-size: 24pt;">Click to begin…</text> -->
 </svg>
 
-<form method="get" action="index.html" style="position: absolute; left: 510px; top: 505px">
+<form method="get" action="index.html" style="position: absolute; left: 665px; top: 450px">
    <button id="next" type="submit">Next&gt;&gt;</button>
 </form>
-<div class="slidecontainer">
+<!--<div class="slidecontainer">
    <input type="range" min="0.0001" max="100" value="25" class="slider" id="deltaX" name="deltax">
    <label for="deltax">Delta x</label>
- </div>
+</div>-->
 
 <script src="page1.js"></script>
 </body>

@@ -8,7 +8,7 @@ var MODULE = (function () {
     var that = {},
       t = 0, T = 1, f = 60,
       ivl, iFn, lastFrame;
-    var fn=localStorage.getItem("funcType") || "sin", oldfn=localStorage.getItem("funcType") || "sin", p=1; // Default: start with sine if there is no value for "funcType"
+    var fn=sessionStorage.getItem("funcType") || "exp", oldfn=sessionStorage.getItem("funcType") || "exp", p=1; // Default: start with sine if there is no value for "funcType"
     // c, o, t used for taylor series
     var c1=1, c2=0, c3=0; // current c0 etc.
     var o1=1, o2=0, o3=0; // old c0 etc.
@@ -86,7 +86,7 @@ var MODULE = (function () {
 
         oldfn = fn; // Store the original function as oldfn
         fn = el["function"].value; // Find the new function from the dropdown box
-        localStorage.setItem("funcType", fn); // Saves the current function on screen to a locally stored variable so that it can be passed over to the other page
+        sessionStorage.setItem("funcType", fn); // Saves the current function on screen to a locally stored variable so that it can be passed over to the other page
         el["func"].children[0].setAttribute("xlink:href", `#${fn}Colourmask`); // Applies the respective colour filter to the appropriate function
       }
       clearInterval(ivl); // Reset the animation
@@ -228,7 +228,7 @@ var MODULE = (function () {
           el[id] = document.getElementById(id);
         });
 
-      el["func"].children[0].setAttribute("xlink:href", `#${fn}Colourmask`); // Applies the correct colour filter to the function which was brough over by the previous page
+      el["func"].children[0].setAttribute("xlink:href", `#${fn}Colourmask`); // Applies the correct colour filter to the function which was brought over by the previous page
 
       // This allows for us to use variables within the CSS, so the animation duration and how far the clip-path goes is no longer hard coded
       let r = document.querySelector(":root");

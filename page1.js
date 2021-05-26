@@ -6,7 +6,7 @@ var MODULE = (function () {
     var that = {},
       t = 0, T = 1, f = 60,
       ivl, iFn, lastFrame;
-    var fn=localStorage.getItem("funcType") || "sin", oldfn=localStorage.getItem("funcType") || "sin", p=1; // Default: start with sine if there is no value for "funType"
+    var fn=sessionStorage.getItem("funcType") || "exp", oldfn=sessionStorage.getItem("funcType") || "exp", p=1; // Default: start with sine if there is no value for "funType"
     // c, o, t used for taylor series
     var c1=1, c2=0, c3=0; // current c0 etc.
     var o1=1, o2=0, o3=0; // old c0 etc.
@@ -49,7 +49,7 @@ var MODULE = (function () {
     fnOnChange = function () {
       oldfn = fn; // Store the original function as oldfn
       fn = el["function"].value; // Find the new function from the dropdown box
-      localStorage.setItem("funcType", fn); // Saves the current function on screen to a locally stored variable so that it can be passed over to the other page
+      sessionStorage.setItem("funcType", fn); // Saves the current function on screen to a locally stored variable so that it can be passed over to the other page
       clearInterval(ivl); // Reset the animation
       // Set t=0 at current time, and prepare to increment t inside setInterval
       lastFrame = +new Date;
@@ -136,7 +136,7 @@ var MODULE = (function () {
           el[id] = document.getElementById(id);
         });
   
-      localStorage.setItem("funcType", fn); // Creates a local variable "funcType" so that we can keep the selected function consistent when moving to other pages
+      sessionStorage.setItem("funcType", fn); // Creates a local variable "funcType" so that we can keep the selected function consistent when moving to other pages
 
       // When "function" changes, animate the change
       el["function"].onchange = fnOnChange;
@@ -166,7 +166,7 @@ var MODULE = (function () {
         // Otherwise, set the cursor to grab mode
         el["graph"].style.cursor = "grabbing";
         // Find the position of the cursor
-        dX = [e.clientX - X0[0], e.clientY - X0[1]]
+        dX = [e.clientX / 1.3 - X0[0], e.clientY - X0[1]]
         // Scale the x component of the mouse position between 0 and 1
         z0 = Math.min(Math.max(z00 + dX[0]/xScale, 0), 1 - el["deltaX"].valueAsNumber/xScale);
         // Redraw the graph
