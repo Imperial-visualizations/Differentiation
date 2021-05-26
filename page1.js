@@ -166,7 +166,7 @@ var MODULE = (function () {
         // Otherwise, set the cursor to grab mode
         el["graph"].style.cursor = "grabbing";
         // Find the position of the cursor
-        dX = [e.clientX - X0[0], e.clientY - X0[1]]
+        dX = [e.clientX / 1.3 - X0[0], e.clientY - X0[1]]
         // Scale the x component of the mouse position between 0 and 1
         z0 = Math.min(Math.max(z00 + dX[0]/xScale, 0), 1 - el["deltaX"].valueAsNumber/xScale);
         // Redraw the graph
