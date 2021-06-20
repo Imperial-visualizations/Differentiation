@@ -18,6 +18,7 @@ var MODULE = (function () {
   
     var fnOnChange;
     var xScale, yScale, xScale_1, yScale_1;
+    let xDiff;
     let animTime = "8s";
     const override = new Event('animationend');
     let minVal;
@@ -107,11 +108,15 @@ var MODULE = (function () {
       now = +new Date;
       t += (now - lastFrame)/1000;
       if(!funcChange){
+        el["checkbox"].checked ? el["lineExt2"].setAttribute("visibility", "visible") : el["lineExt2"].setAttribute("visibility", "hidden"); // Only shows link between graphs when checkbox is ticked during animation
         z0 = t/shift; // If the button was clicked, linearly increase z0 from 0 to 1 during the animation window, this shifts the gradient along the x axis
+      } else{
+        el["lineExt2"].setAttribute("visibility", "hidden"); // Hides link while display function is changing
       }
       lastFrame = now;
       // if t > T, we stop the animation
       if (t > T*shift) {
+        el["lineExt2"].setAttribute("visibility", "hidden"); // Hide link after animation is completed
         clearInterval(ivl);
         el["animButton"].disabled = false; // Once the animation ends the button will be available to use
         // c1, c2, c3 are for interpolating the Taylor series approximations
@@ -189,12 +194,12 @@ var MODULE = (function () {
       el["blob2"].setAttribute("d", "M " + (x0+xScale*z0 + xOffset) + "," + y0 + " L " + (x0+xScale*z0 + xOffset) + "," + (y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale)) ));
 
       let angle = Math.atan2((y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))) - (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))), (x0+xScale*z0 + xOffset) - (x0+xScale*z0)) * 180 / Math.PI;
-      const xDiff = (parseFloat(el["lineExt"].getAttribute('x1')) + parseFloat(el["lineExt"].getAttribute("x2"))) / 2;
-
+      let excess = 577 - (y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0))); // This calculates what the x2 attibute of lineExt2 should be to show the link between the two graphs as the derivative is being drawn
+      excess += (y0+yScale* (p*fn1s[fn](z0)/adj + (1-p)*fn1s[oldfn](z0)/adj)) - 497.57214;
+      
       el["lineExt"].setAttribute("transform", `translate(${((x0+xScale*z0)+(x0+xScale*z0 + xOffset))/2 - xDiff}, ${((y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)))+(y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))))/2 - y0}) rotate(${angle}, ${xDiff}, ${y0})`);
       el["lineExt2"].setAttribute("transform", `translate(${((x0+xScale*z0)+(x0+xScale*z0 + xOffset))/2 - xDiff}, ${((y0+yScale* (p*fns[fn](z0) + (1-p)*fns[oldfn](z0)))+(y0+yScale* (p*fns[fn](z0 + xOffset/xScale) + (1-p)*fns[oldfn](z0 + xOffset/xScale))))/2 - y0}) rotate(90, ${xDiff}, ${y0})`);
-      el["lineExt2"].setAttribute("visibility", "hidden");    // comment this out to connect the function to the derivate while drawing
-
+      el["lineExt2"].setAttribute("x2", `${excess}`);
 
       if(xOffset == 0.0001){
         el["gradientDisplay"].style.display = "none";
@@ -222,7 +227,7 @@ var MODULE = (function () {
 
       // Create an array of the elements using their ids and getElementById
       ["root", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal1",
-      "gradientDisplayVal2","gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2", "limitDisplay", "gradientDisplay", "func"].map(
+      "gradientDisplayVal2","gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2", "limitDisplay", "gradientDisplay", "func", "checkbox"].map(
 
         function (id) {
           el[id] = document.getElementById(id);
@@ -233,7 +238,8 @@ var MODULE = (function () {
       // This allows for us to use variables within the CSS, so the animation duration and how far the clip-path goes is no longer hard coded
       let r = document.querySelector(":root");
       r.style.setProperty('--animDuration', animTime);
-
+      el["lineExt2"].setAttribute("visibility", "hidden");
+      xDiff = (parseFloat(el["lineExt"].getAttribute('x1')) + parseFloat(el["lineExt"].getAttribute("x2"))) / 2;
       clicked = false;
       minVal = 0.0001;
       el["lineExt"].setAttribute("stroke-dasharray", "0");
@@ -254,7 +260,7 @@ var MODULE = (function () {
       X0 = [el["blob"].getBBox().x + 207, el["blob"].getBBox().y];
   
       // Create mousePressed variable, set to false by default
-      var mousePressed = false
+      var mousePressed = false;
       // When the mouse is moved over the graph,
       el["graph"].onmousemove = function (e) {
         /* If the mouse is not pressed, set the cursor to pointer mode 
