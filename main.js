@@ -4,17 +4,17 @@
 
 
 var MODULE = (function () {
-  "use strict";
-  var that = {},
-    t = 0, T = 1, f = 60,
-    ivl, iFn, lastFrame;
-  var fn=sessionStorage.getItem("funcType") || "exp", oldfn=sessionStorage.getItem("funcType") || "exp", p=1; // Default: start with sine if there is no value for "funcType"
-  // c, o, t used for taylor series
-  var c1=1, c2=0, c3=0; // current c0 etc.
-  var o1=1, o2=0, o3=0; // old c0 etc.
-  var t1=1, t2=0, t3=0; // target c0 etc.
-  var X0 = [0,0], dX = [0,0], z00=0.45, z0 = 0.45;;
-  var el = that.el = {};
+    "use strict";
+    var that = {},
+      t = 0, T = 1, f = 60,
+      ivl, iFn, lastFrame;
+    var fn=sessionStorage.getItem("funcType") || "exp", oldfn=sessionStorage.getItem("funcType") || "exp", p=1; // Default: start with sine if there is no value for "funcType"
+    // c, o, t used for taylor series
+    var c1=1, c2=0, c3=0; // current c0 etc.
+    var o1=1, o2=0, o3=0; // old c0 etc.
+    var t1=1, t2=0, t3=0; // target c0 etc.
+    var X0 = [0,0], dX = [0,0], z00=0.45, z0 = 0.45;;
+    var el = that.el = {};
 
   var fnOnChange;
   var xScale, yScale, xScale_1, yScale_1;
@@ -225,32 +225,32 @@ var MODULE = (function () {
   // This function runs when the page loads (see <body> tag in index.html)
   that.init = function () {
 
-    // Create an array of the elements using their ids and getElementById
-    ["root", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal1",
-    "gradientDisplayVal2","gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2", "limitDisplay", "gradientDisplay", "func", "checkbox"].map(
+      // Create an array of the elements using their ids and getElementById
+      ["root", "graph", "function", "xAxis", "yAxis", "xAxis-1", "yAxis-1", "fx", "fx-1", "blob", "blob2", "lineExt", "animButton", "rect", "duration", "lineExt2", "gradientDisplayVal1",
+      "gradientDisplayVal2","gradientDisplayValx1", "gradientDisplayValx2", "gradientDisplayValdx1","gradientDisplayValdx2", "limitDisplay", "gradientDisplay", "func", "checkbox"].map(
 
       function (id) {
         el[id] = document.getElementById(id);
       });
 
-    el["func"].children[0].setAttribute("xlink:href", `#${fn}Colourmask`); // Applies the correct colour filter to the function which was brought over by the previous page
+      el["func"].children[0].setAttribute("xlink:href", `#${fn}Colourmask`); // Applies the correct colour filter to the function which was brought over by the previous page
 
-    // This allows for us to use variables within the CSS, so the animation duration and how far the clip-path goes is no longer hard coded
-    let r = document.querySelector(":root");
-    r.style.setProperty('--animDuration', animTime);
-    el["lineExt2"].setAttribute("visibility", "hidden");
-    xDiff = (parseFloat(el["lineExt"].getAttribute('x1')) + parseFloat(el["lineExt"].getAttribute("x2"))) / 2;
-    clicked = false;
-    minVal = 0.0001;
-    el["lineExt"].setAttribute("stroke-dasharray", "0");
-    // When "function" changes, animate the change
-    el["function"].onchange = fnOnChange;
-
-    // Find the size of the bounding box in pixels
-    xScale = el["xAxis"].getBBox().width;
-    yScale = -el["yAxis"].getBBox().height / 2 / 3;
-    const axisWidth = xScale + "px";
-    r.style.setProperty('--axis-width', axisWidth);
+      // This allows for us to use variables within the CSS, so the animation duration and how far the clip-path goes is no longer hard coded
+      let r = document.querySelector(":root");
+      r.style.setProperty('--animDuration', animTime);
+      el["lineExt2"].setAttribute("visibility", "hidden");
+      xDiff = (parseFloat(el["lineExt"].getAttribute('x1')) + parseFloat(el["lineExt"].getAttribute("x2"))) / 2;
+      clicked = false;
+      minVal = 0.0001;
+      el["lineExt"].setAttribute("stroke-dasharray", "0");
+      // When "function" changes, animate the change
+      el["function"].onchange = fnOnChange;
+  
+      // Find the size of the bounding box in pixels
+      xScale = el["xAxis"].getBBox().width;
+      yScale = -el["yAxis"].getBBox().height / 2 / 3;
+      const axisWidth = xScale + "px";
+      r.style.setProperty('--axis-width', axisWidth);
 
     xScale_1 = el["xAxis-1"].getBBox().width;
     yScale_1 = -el["yAxis-1"].getBBox().height / 2 / 3;
